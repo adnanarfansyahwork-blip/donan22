@@ -21,4 +21,4 @@
     </div>
 </body>
 </html>
-<?php /**PATH C:\Users\User\Desktop\donan22\donan22-laravel-new\resources\views/errors/404.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\User\Desktop\donan22-laravel-new\resources\views/errors/404.blade.php ENDPATH**/ ?>

@@ -71,17 +71,19 @@ class UserController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        $user->update([
+        $updateData = [
             'username' => $validated['username'],
             'email' => $validated['email'],
             'full_name' => $validated['full_name'] ?? null,
             'role' => $validated['role'],
             'status' => $validated['status'],
-        ]);
+        ];
 
         if (!empty($validated['password'])) {
-            $user->update(['password_hash' => Hash::make($validated['password'])]);
+            $updateData['password_hash'] = Hash::make($validated['password']);
         }
+
+        $user->update($updateData);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Administrator updated successfully.');
@@ -107,6 +109,7 @@ class UserController extends Controller
 
     public function updateProfile(Request $request): RedirectResponse
     {
+        /** @var Administrator $user */
         $user = Auth::guard('admin')->user();
 
         $validated = $request->validate([
@@ -117,18 +120,20 @@ class UserController extends Controller
             'new_password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        $user->update([
+        $updateData = [
             'username' => $validated['username'],
             'email' => $validated['email'],
             'full_name' => $validated['full_name'] ?? null,
-        ]);
+        ];
 
         if (!empty($validated['new_password'])) {
             if (!Hash::check($validated['current_password'], $user->password_hash)) {
                 return back()->with('error', 'Current password is incorrect.');
             }
-            $user->update(['password_hash' => Hash::make($validated['new_password'])]);
+            $updateData['password_hash'] = Hash::make($validated['new_password']);
         }
+
+        $user->update($updateData);
 
         return back()->with('success', 'Profile updated successfully.');
     }

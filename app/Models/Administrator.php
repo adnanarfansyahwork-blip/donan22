@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method bool update(array $attributes = [], array $options = [])
+ * @method bool save(array $options = [])
+ */
 class Administrator extends Authenticatable
 {
     use HasFactory;
