@@ -323,12 +323,9 @@ class Post extends Model
             if (str_starts_with($this->featured_image, 'http')) {
                 return $this->featured_image;
             }
-            // Return path relative to assets/uploads
-            // Check if path already starts with uploads/
-            if (str_starts_with($this->featured_image, 'uploads/')) {
-                return url($this->featured_image);
-            }
-            return asset('storage/' . $this->featured_image);
+            
+            // Return path from uploads folder directly
+            return asset('uploads/posts/' . $this->featured_image);
         }
         
         return $this->getPlaceholderImage();

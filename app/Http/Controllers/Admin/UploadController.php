@@ -19,11 +19,14 @@ class UploadController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('posts', $filename, 'public');
+            
+            // Save directly to public/uploads/posts
+            $file->move(public_path('uploads/posts'), $filename);
+            $path = 'uploads/posts/' . $filename;
 
             return response()->json([
                 'success' => true,
-                'location' => asset('storage/' . $path),
+                'location' => asset($path),
             ]);
         }
 
