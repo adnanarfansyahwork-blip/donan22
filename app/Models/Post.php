@@ -324,8 +324,13 @@ class Post extends Model
                 return $this->featured_image;
             }
             
+            // Remove 'posts/' prefix if exists (old storage format)
+            $filename = str_starts_with($this->featured_image, 'posts/')
+                ? substr($this->featured_image, 6)
+                : $this->featured_image;
+            
             // Return path from uploads folder directly
-            return asset('uploads/posts/' . $this->featured_image);
+            return asset('uploads/posts/' . $filename);
         }
         
         return $this->getPlaceholderImage();
