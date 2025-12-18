@@ -20,8 +20,14 @@ class UploadController extends Controller
             $file = $request->file('file');
             $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
             
+            // Create directory if not exists
+            $uploadPath = public_path('uploads/posts');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            
             // Save directly to public/uploads/posts
-            $file->move(public_path('uploads/posts'), $filename);
+            $file->move($uploadPath, $filename);
             $path = 'uploads/posts/' . $filename;
 
             return response()->json([
