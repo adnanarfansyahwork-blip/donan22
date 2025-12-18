@@ -274,22 +274,35 @@ class PostController extends Controller
      */
     protected function uploadFeaturedImage($file): string
     {
-        // Use Laravel Storage to save to public/assets/uploads/posts
-        $path = $file->store('posts', 'public');
+        // Create directory if not exists
+        $uploadPath = public_path('uploads/posts');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
         
-        return $path;
+        // Generate unique filename
+        $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
+        
+        // Save directly to public/uploads/posts
+        $file->move($uploadPath, $filename);
+        
+        // Return just the filename (not full path)
+        return $filename;
     }
 
     /**
      * Delete featured image.
      */
-    protected function deleteFeaturedImage(?string $path): void
+    protected function deleteFeaturedImage(?string $filename): void
     {
-        if (empty($path)) {
+        if (empty($filename)) {
             return;
         }
 
-        // Use Laravel Storage to delete
-        Storage::disk('public')->delete($path);
+        // Delete from public/uploads/posts
+        $filePath = public_path('uploads/posts/' . basename($filename));
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
     }
 }
