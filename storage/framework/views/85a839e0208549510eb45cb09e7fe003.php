@@ -17,7 +17,7 @@
     <?php if(file_exists(public_path('build/manifest.json'))): ?>
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     <?php else: ?>
-        <link rel="stylesheet" href="/build/assets/app-C6uQa5Od.css">
+        <link rel="stylesheet" href="/build/assets/app-BwEXT_m1.css">
         <script src="/build/assets/app-CAiCLEjY.js" defer></script>
     <?php endif; ?>
 
