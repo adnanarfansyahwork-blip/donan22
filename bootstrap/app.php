@@ -27,14 +27,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     })->create();
 
-// Set public path - detect if already in public_html or need to add it
-$basePath = $app->basePath();
-if (str_ends_with($basePath, 'public_html')) {
-    // Already in public_html (production git repo is in public_html)
-    $app->usePublicPath($basePath);
-} else {
-    // Local dev or git repo in parent folder
-    $app->usePublicPath($app->basePath('public_html'));
-}
+// Set public path to 'public' directory
+$app->usePublicPath($app->basePath('public'));
 
 return $app;
