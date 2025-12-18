@@ -88,7 +88,14 @@ class Category extends Model
     // Accessors
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image ? asset('assets/uploads/' . $this->image) : null;
+        if (!$this->image) {
+            return null;
+        }
+        
+        // Remove old path prefixes if exist
+        $filename = str_replace(['categories/', 'storage/'], '', $this->image);
+        
+        return asset('uploads/categories/' . basename($filename));
     }
 
     public function getPostsCountAttribute(): int

@@ -44,7 +44,13 @@ class CategoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('categories', 'public');
+            $uploadPath = public_path('uploads/categories');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            $filename = Str::random(40) . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($uploadPath, $filename);
+            $validated['image'] = $filename;
         }
 
         Category::create($validated);
@@ -81,7 +87,21 @@ class CategoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('categories', 'public');
+            // Delete old image if exists
+            if ($category->image) {
+                $oldPath = public_path('uploads/categories/' . basename($category->image));
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+            
+            $uploadPath = public_path('uploads/categories');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            $filename = Str::random(40) . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($uploadPath, $filename);
+            $validated['image'] = $filename;
         }
 
         $category->update($validated);
