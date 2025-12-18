@@ -28,6 +28,6 @@ $app = Application::configure(basePath: dirname(__DIR__))
     })->create();
 
 // Set public path for Hostinger (public_html is the root)
-$app->usePublicPath($app->basePath());
+$app->usePublicPath($app->basePath('public_html'));
 
 return $app;
