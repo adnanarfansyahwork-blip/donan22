@@ -657,17 +657,32 @@ unset($__errorArgs, $__bag); ?>
 </form>
 
 <?php $__env->startPush('scripts'); ?>
-<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"></script>
 <script>
-tinymce.init({
-    selector: '#content',
-    height: 500,
-    menubar: false,
-    plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount codesample nonbreaking pagebreak',
-    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image media | codesample pagebreak | fullscreen code | help',
-    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-    placeholder: 'Tulis konten post di sini...'
+
+$(document).ready(function() {
+    $('#content').summernote({
+        height: 500,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+        fontNames: ['Arial', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana', 'Segoe UI'],
+        fontNamesIgnoreCheck: ['Segoe UI'],
+        styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'],
+        placeholder: 'Tulis konten post di sini...',
+        tabsize: 2,
+        lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0']
+    });
 });
+
 </script>
 <script>
 function postForm() {
@@ -710,4 +725,4 @@ function imageUpload() {
 }
 </script>
 <?php $__env->stopPush(); ?>
-<?php /**PATH C:\Users\User\Desktop\donan22-laravel-new\resources\views/admin/posts/_form.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/u828471719/domains/donan22.com/public_html/resources/views/admin/posts/_form.blade.php ENDPATH**/ ?>

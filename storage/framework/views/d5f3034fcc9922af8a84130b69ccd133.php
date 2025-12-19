@@ -171,4 +171,5 @@
     
     <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
-</html><?php /**PATH C:\Users\User\Desktop\donan22-laravel-new\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH /home/u828471719/domains/donan22.com/public_html/resources/views/admin/layouts/app.blade.php ENDPATH**/ ?>

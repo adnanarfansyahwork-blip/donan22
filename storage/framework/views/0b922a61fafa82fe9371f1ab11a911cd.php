@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Posts'); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -257,4 +255,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\User\Desktop\donan22-laravel-new\resources\views/admin/posts/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u828471719/domains/donan22.com/public_html/resources/views/admin/posts/index.blade.php ENDPATH**/ ?>

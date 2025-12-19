@@ -96,10 +96,8 @@
                 <div class="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 mb-6 shadow-sm">
                     <div class="prose prose-gray max-w-none
                                 prose-headings:text-gray-900 prose-headings:font-bold
-                                prose-h1:text-2xl prose-h1:mt-6 prose-h1:mb-3
-                                prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3 prose-h2:pb-2 prose-h2:border-b prose-h2:border-gray-100 prose-h2:block
+                                prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3 prose-h2:pb-2 prose-h2:border-b prose-h2:border-gray-100
                                 prose-h3:text-lg prose-h3:mt-5 prose-h3:mb-2
-                                prose-h4:text-base prose-h4:mt-4 prose-h4:mb-2
                                 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
                                 prose-a:text-primary-600 prose-a:font-medium hover:prose-a:underline
                                 prose-strong:text-gray-900
@@ -539,4 +537,4 @@ unset($__errorArgs, $__bag); ?>
     }
 </style>
 <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\User\Desktop\donan22-laravel-new\resources\views/posts/show.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u828471719/domains/donan22.com/public_html/resources/views/posts/show.blade.php ENDPATH**/ ?>
