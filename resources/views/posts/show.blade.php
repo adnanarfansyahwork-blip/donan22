@@ -664,67 +664,61 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder implementation with fallback
+    // 3-click system: 2 clicks for popunder, 3rd click for download
     document.addEventListener('DOMContentLoaded', function() {
-        const popunderDelay = 5000; // 5 seconds cooldown
-        const popunderUrl = 'https://demolitionnutsgrease.com/'; // Fallback URL
+        console.log('✓ Popunder 3-click system initialized');
         
-        console.log('✓ Popunder script initialized');
-        
-        // Main click handler
-        document.body.addEventListener('click', function(e) {
-            console.log('→ Click detected on:', e.target.tagName, e.target.className);
-            
-            const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
-            const now = Date.now();
-            const timeSince = now - lastTrigger;
-            
-            if (timeSince > popunderDelay) {
-                localStorage.setItem('last_popunder_trigger', now.toString());
-                console.log('✓ Triggering popunder (cooldown passed: ' + Math.round(timeSince/1000) + 's)');
-                
-                // Method 1: Let external script handle it (if loaded)
-                // Most popunder scripts auto-trigger on click
-                
-                // Method 2: Fallback - manual popup after delay
-                setTimeout(() => {
-                    console.log('ℹ Fallback check - did popunder trigger?');
-                    // If you want manual fallback, uncomment below:
-                    // window.open(popunderUrl, '_blank');
-                }, 100);
-                
-            } else {
-                const wait = Math.ceil((popunderDelay - timeSince) / 1000);
-                console.log('✗ Cooldown active, wait ' + wait + 's more');
-            }
-        }, true);
-        
-        // Download links visual feedback
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         console.log('✓ Found ' + downloadLinks.length + ' download links');
         
         downloadLinks.forEach(function(link) {
+            const linkId = link.dataset.linkId;
+            const storageKey = 'download_clicks_' + linkId;
+            
             link.addEventListener('click', function(e) {
-                console.log('→ Download link clicked:', this.href);
+                let clicks = parseInt(localStorage.getItem(storageKey) || '0');
+                clicks++;
+                
+                console.log('→ Click #' + clicks + ' on download link');
+                
                 const textElement = this.querySelector('.download-text');
-                if (textElement) {
-                    const originalText = textElement.innerText;
-                    textElement.innerText = 'Opening Download...';
-                    setTimeout(() => {
-                        textElement.innerText = originalText;
-                    }, 2000);
+                
+                if (clicks < 3) {
+                    // First 2 clicks - prevent navigation, let popunder trigger
+                    e.preventDefault();
+                    e.stopPropagation();
+                    localStorage.setItem(storageKey, clicks.toString());
+                    
+                    if (textElement) {
+                        textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
+                    }
+                    
+                    console.log('✓ Prevented navigation - popunder should trigger');
+                    console.log('ℹ Click ' + (3 - clicks) + ' more time(s) to download');
+                    
+                    // Visual feedback
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => this.classList.remove('animate-pulse'), 1000);
+                } else {
+                    // 3rd click - allow navigation to download
+                    localStorage.removeItem(storageKey);
+                    
+                    if (textElement) {
+                        textElement.innerText = 'Opening Download...';
+                    }
+                    
+                    console.log('✓ Navigation allowed - opening download page');
+                    // Let default link behavior happen
                 }
             });
         });
         
-        // Debug: Check script load status
+        // Debug info
         setTimeout(() => {
-            console.log('--- Popunder Debug Info ---');
-            console.log('External script loaded:', document.querySelector('script[src*="demolitionnutsgrease"]') !== null);
-            console.log('Browser allows popups:', !window.navigator.userAgent.includes('Chrome') || 'check manually');
-            console.log('Last trigger time:', localStorage.getItem('last_popunder_trigger'));
-            console.log('Click anywhere to test popunder');
-        }, 1500);
+            console.log('--- Debug Info ---');
+            console.log('External popunder script:', document.querySelector('script[src*="demolitionnutsgrease"]') !== null ? 'Loaded' : 'Not found');
+            console.log('Ready: Click download button 3 times (2 for popunder, 1 for download)');
+        }, 1000);
     });
 </script>
 @endpush
