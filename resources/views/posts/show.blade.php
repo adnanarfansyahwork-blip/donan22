@@ -684,16 +684,16 @@
                 const textElement = this.querySelector('.download-text');
                 
                 if (clicks < 3) {
-                    // First 2 clicks - prevent navigation, let popunder trigger
+                    // First 2 clicks - prevent navigation, LET EVENT BUBBLE for popunder
                     e.preventDefault();
-                    e.stopPropagation();
+                    // REMOVED e.stopPropagation() - external script needs event bubbling!
                     localStorage.setItem(storageKey, clicks.toString());
                     
                     if (textElement) {
                         textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
                     }
                     
-                    console.log('✓ Prevented navigation - popunder should trigger');
+                    console.log('✓ Prevented navigation - event bubbling to trigger popunder');
                     console.log('ℹ Click ' + (3 - clicks) + ' more time(s) to download');
                     
                     // Visual feedback
