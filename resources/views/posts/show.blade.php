@@ -664,30 +664,12 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder on body/content area click (not on interactive elements)
+    // Popunder on ANY click (including links, buttons, etc)
     document.addEventListener('DOMContentLoaded', function() {
         const popunderDelay = 5000; // 5 seconds cooldown between popunders
         
-        // Trigger popunder on any click in content area (excluding interactive elements)
+        // Trigger popunder on ANY click anywhere on the page
         document.body.addEventListener('click', function(e) {
-            // Don't trigger on interactive elements: links, buttons, inputs, etc
-            const excludedSelectors = [
-                '.download-link-ad',
-                'a[href]',
-                'button',
-                'input',
-                'textarea',
-                'select',
-                '[onclick]',
-                '[role="button"]'
-            ];
-            
-            for (let selector of excludedSelectors) {
-                if (e.target.closest(selector)) {
-                    return; // Exit early if clicking on excluded element
-                }
-            }
-            
             // Check if enough time has passed since last popunder
             const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
             const now = Date.now();
