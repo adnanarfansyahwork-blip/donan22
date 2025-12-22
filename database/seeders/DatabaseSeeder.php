@@ -36,10 +36,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Seed post types, categories, and posts
+        // Seed post types, categories, tags, and posts
         $this->call([
             PostTypeSeeder::class,
             CategorySeeder::class,
+            TagSeeder::class,
             PostSeeder::class,
         ]);
     }
