@@ -329,8 +329,8 @@ class Post extends Model
                 ? substr($this->featured_image, 6)
                 : $this->featured_image;
             
-            // Check if file exists before returning
-            $filePath = public_path('uploads/posts/' . $filename);
+            // Check if file exists in base_path uploads/posts (correct location)
+            $filePath = base_path('uploads/posts/' . $filename);
             if (file_exists($filePath)) {
                 return asset('uploads/posts/' . $filename);
             }
