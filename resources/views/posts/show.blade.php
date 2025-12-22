@@ -660,69 +660,6 @@
         </div>
     </div>
 </article>
-@push('scripts')
-<!-- Popunder Ads Script -->
-<script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
-<script>
-    // 3-click system: 2 clicks for popunder, 3rd click for download
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('✓ Popunder 3-click system initialized');
-        
-        const downloadLinks = document.querySelectorAll('.download-link-ad');
-        console.log('✓ Found ' + downloadLinks.length + ' download links');
-        
-        downloadLinks.forEach(function(link) {
-            const linkId = link.dataset.linkId;
-            const storageKey = 'download_clicks_' + linkId;
-            
-            link.addEventListener('click', function(e) {
-                let clicks = parseInt(localStorage.getItem(storageKey) || '0');
-                clicks++;
-                
-                console.log('→ Click #' + clicks + ' on download link');
-                
-                const textElement = this.querySelector('.download-text');
-                
-                if (clicks < 3) {
-                    // First 2 clicks - prevent navigation, LET EVENT BUBBLE for popunder
-                    e.preventDefault();
-                    // REMOVED e.stopPropagation() - external script needs event bubbling!
-                    localStorage.setItem(storageKey, clicks.toString());
-                    
-                    if (textElement) {
-                        textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
-                    }
-                    
-                    console.log('✓ Prevented navigation - event bubbling to trigger popunder');
-                    console.log('ℹ Click ' + (3 - clicks) + ' more time(s) to download');
-                    
-                    // Visual feedback
-                    this.classList.add('animate-pulse');
-                    setTimeout(() => this.classList.remove('animate-pulse'), 1000);
-                } else {
-                    // 3rd click - allow navigation to download
-                    localStorage.removeItem(storageKey);
-                    
-                    if (textElement) {
-                        textElement.innerText = 'Opening Download...';
-                    }
-                    
-                    console.log('✓ Navigation allowed - opening download page');
-                    // Let default link behavior happen
-                }
-            });
-        });
-        
-        // Debug info
-        setTimeout(() => {
-            console.log('--- Debug Info ---');
-            console.log('External popunder script:', document.querySelector('script[src*="demolitionnutsgrease"]') !== null ? 'Loaded' : 'Not found');
-            console.log('Ready: Click download button 3 times (2 for popunder, 1 for download)');
-        }, 1000);
-    });
-</script>
-@endpush
-
 @endsection
 
 @push('styles')
@@ -740,5 +677,140 @@
         outline: 2px solid rgb(var(--color-primary-500));
         outline-offset: 2px;
     }
+    
+    /* Popunder click indicator */
+    .download-link-ad.popunder-active {
+        animation: pulse-green 1s ease-in-out;
+    }
+    
+    @keyframes pulse-green {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+        50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    }
 </style>
+@endpush
+
+@push('scripts')
+<!-- Popunder Ads Script - MUST load FIRST -->
+<script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
+
+<!-- Download Click Handler -->
+<script>
+(function() {
+    'use strict';
+    
+    // Configuration
+    const REQUIRED_CLICKS = 3;
+    
+    // Wait for DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+    function init() {
+        console.log('[Popunder] Initializing...');
+        
+        const downloadLinks = document.querySelectorAll('.download-link-ad');
+        
+        if (!downloadLinks.length) {
+            console.log('[Popunder] No download links found');
+            return;
+        }
+        
+        console.log('[Popunder] Found ' + downloadLinks.length + ' download link(s)');
+        
+        downloadLinks.forEach(function(link, idx) {
+            setupLink(link, idx);
+        });
+        
+        // Debug
+        setTimeout(function() {
+            const hasScript = !!document.querySelector('script[src*="demolitionnutsgrease"]');
+            console.log('[Popunder] External script: ' + (hasScript ? 'Loaded ✓' : 'Missing ✗'));
+            console.log('[Popunder] Ready! Click download button ' + REQUIRED_CLICKS + 'x');
+        }, 1500);
+    }
+    
+    function setupLink(link, idx) {
+        const postSlug = '{{ $post->slug ?? "post" }}';
+        const linkId = link.dataset.linkId || idx;
+        const storageKey = 'dl_' + postSlug + '_' + linkId;
+        const originalHref = link.getAttribute('href');
+        
+        const textEl = link.querySelector('.download-text');
+        const originalText = textEl ? textEl.innerText.trim() : 'Download';
+        
+        // Restore previous state
+        const saved = parseInt(localStorage.getItem(storageKey) || '0');
+        if (saved > 0 && saved < REQUIRED_CLICKS) {
+            updateText(textEl, REQUIRED_CLICKS - saved);
+            // Remove href temporarily to prevent navigation
+            link.removeAttribute('href');
+            link.style.cursor = 'pointer';
+            link.dataset.targetHref = originalHref;
+        }
+        
+        link.addEventListener('click', function(e) {
+            let clicks = parseInt(localStorage.getItem(storageKey) || '0');
+            clicks++;
+            
+            console.log('[Popunder] Click ' + clicks + '/' + REQUIRED_CLICKS);
+            
+            if (clicks < REQUIRED_CLICKS) {
+                // Still need more clicks
+                // CRITICAL: For popunder to work, we CANNOT prevent default on user click
+                // Instead, we remove the href so click does nothing but popunder can trigger
+                
+                if (clicks === 1) {
+                    // First click - store original href and remove it
+                    link.dataset.targetHref = originalHref;
+                    link.removeAttribute('href');
+                    link.style.cursor = 'pointer';
+                }
+                
+                localStorage.setItem(storageKey, clicks.toString());
+                updateText(textEl, REQUIRED_CLICKS - clicks);
+                
+                // Visual pulse
+                link.classList.add('popunder-active');
+                setTimeout(function() {
+                    link.classList.remove('popunder-active');
+                }, 800);
+                
+                console.log('[Popunder] ' + (REQUIRED_CLICKS - clicks) + ' more click(s) needed');
+                
+                // Don't prevent default - let popunder script detect the click!
+                // Navigation won't happen anyway since href is removed
+                
+            } else {
+                // Final click - redirect to download
+                console.log('[Popunder] Redirecting to download...');
+                localStorage.removeItem(storageKey);
+                
+                if (textEl) {
+                    textEl.innerText = 'Opening...';
+                }
+                
+                // Get stored href and navigate
+                const targetHref = link.dataset.targetHref || originalHref;
+                if (targetHref) {
+                    // Small delay for visual feedback
+                    setTimeout(function() {
+                        window.location.href = targetHref;
+                    }, 100);
+                }
+            }
+        }, false);
+    }
+    
+    function updateText(el, remaining) {
+        if (!el) return;
+        el.innerText = remaining === 1 
+            ? 'Click 1 More Time' 
+            : 'Click ' + remaining + ' More Times';
+    }
+})();
+</script>
 @endpush
