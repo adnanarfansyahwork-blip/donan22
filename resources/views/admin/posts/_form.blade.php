@@ -447,7 +447,7 @@
                 <!-- Preview -->
                 <div class="mb-4">
                     @if($isEdit && $post->featured_image)
-                        <div class="relative" x-show="!removeImage">
+                        <div class="relative" x-show="!removeImage && !previewUrl">
                             <img src="{{ $post->featured_image_url }}" 
                                  alt="{{ $post->title }}"
                                  class="w-full h-40 object-cover rounded-lg"
@@ -458,7 +458,7 @@
                                 <i class="bi bi-x"></i>
                             </button>
                         </div>
-                        <input type="hidden" name="remove_featured_image" :value="removeImage ? 1 : 0">
+                        <input type="hidden" name="remove_featured_image" :value="removeImage && !previewUrl ? 1 : 0">
                     @endif
                     
                     <!-- New image preview -->
@@ -475,6 +475,7 @@
                 </div>
                 
                 <input type="file" 
+                       id="featured_image_input"
                        name="featured_image" 
                        accept="image/*"
                        @change="handleFileSelect($event)"
@@ -654,8 +655,9 @@ function imageUpload() {
         },
         clearPreview() {
             this.previewUrl = null;
-            const input = this.$el.querySelector('input[type="file"]');
+            const input = document.getElementById('featured_image_input');
             if (input) input.value = '';
+            this.removeImage = false;
         }
     }
 }
