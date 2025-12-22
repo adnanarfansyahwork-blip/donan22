@@ -665,44 +665,40 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder click counter - Optimized like kuyhaa (no blank tabs)
+    // Popunder on body/content area click (not on download buttons)
     document.addEventListener('DOMContentLoaded', function() {
-        const downloadLinks = document.querySelectorAll('.download-link-ad');
+        let popunderTriggered = false;
+        const popunderDelay = 5000; // 5 seconds cooldown between popunders
         
+        // Trigger popunder on any click in content area (excluding download links)
+        document.body.addEventListener('click', function(e) {
+            // Don't trigger on download links or their children
+            if (e.target.closest('.download-link-ad')) {
+                return;
+            }
+            
+            // Check if enough time has passed since last popunder
+            const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
+            const now = Date.now();
+            
+            if (now - lastTrigger > popunderDelay) {
+                localStorage.setItem('last_popunder_trigger', now.toString());
+                // Popunder script will handle the actual popup
+            }
+        }, true);
+        
+        // Download links work normally - direct navigation
+        const downloadLinks = document.querySelectorAll('.download-link-ad');
         downloadLinks.forEach(function(link) {
-            const linkId = link.dataset.linkId;
-            const storageKey = 'download_clicks_' + linkId;
-            const originalUrl = link.href;
-            
-            // Store original href and replace with javascript:void(0)
-            link.setAttribute('data-original-href', originalUrl);
-            
             link.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                let clicks = parseInt(localStorage.getItem(storageKey) || '0');
-                clicks++;
-                
+                // Just let it navigate normally
                 const textElement = this.querySelector('.download-text');
-                
-                if (clicks < 3) {
-                    // First 2 clicks - just count, popunder will trigger automatically
-                    localStorage.setItem(storageKey, clicks.toString());
-                    textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
-                    
-                    // Visual feedback
-                    this.classList.add('animate-pulse');
-                    setTimeout(() => this.classList.remove('animate-pulse'), 800);
-                } else {
-                    // 3rd click - redirect to actual download page
-                    localStorage.removeItem(storageKey);
+                if (textElement) {
+                    const originalText = textElement.innerText;
                     textElement.innerText = 'Opening Download...';
-                    
-                    // Use location.href instead of window.open to avoid popup blockers
                     setTimeout(() => {
-                        window.location.href = originalUrl;
-                    }, 200);
+                        textElement.innerText = originalText;
+                    }, 2000);
                 }
             });
         });
