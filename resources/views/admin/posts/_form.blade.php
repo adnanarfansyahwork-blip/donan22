@@ -389,17 +389,25 @@
                         @enderror
                     </div>
                     
-                    <div>
+                    <div x-data="{ searchCategory: '', categories: {{ $categories->toJson() }}, selectedCategory: '{{ old('category_id', $post->category_id ?? '') }}' }">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
-                        <select name="category_id" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <option value="">Pilih Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id', $post->category_id ?? '') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               x-model="searchCategory" 
+                               placeholder="Cari kategori..."
+                               class="w-full px-3 py-2 mb-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm">
+                        <div class="max-h-48 overflow-y-auto border border-gray-300 rounded-lg">
+                            <template x-for="category in categories.filter(c => c.name.toLowerCase().includes(searchCategory.toLowerCase()))" :key="category.id">
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="radio" 
+                                           name="category_id" 
+                                           :value="category.id"
+                                           :checked="selectedCategory == category.id"
+                                           @change="selectedCategory = category.id"
+                                           class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                    <span class="ml-2 text-sm text-gray-700" x-text="category.name"></span>
+                                </label>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -534,15 +542,20 @@
             </div>
             
             <!-- Tags -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="bg-white rounded-xl shadow-sm p-6" x-data="tagSearch()">
                 <h3 class="text-base font-semibold text-gray-900 mb-4">Tags</h3>
                 @if($tags->count() > 0)
-                    <div class="space-y-2 max-h-64 overflow-y-auto">
-                        @php
-                            $selectedTags = old('tags', $isEdit && $post->tags ? $post->tags->pluck('id')->toArray() : []);
-                        @endphp
+                    @php
+                        $selectedTags = old('tags', $isEdit && $post->tags ? $post->tags->pluck('id')->toArray() : []);
+                    @endphp
+                    <input type="text" 
+                           x-model="searchQuery" 
+                           placeholder="Cari tags..."
+                           class="w-full px-3 py-2 mb-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm">
+                    <div class="space-y-2 max-h-64 overflow-y-auto border border-gray-300 rounded-lg p-2">
                         @foreach($tags as $tag)
-                            <label class="flex items-center p-2 rounded hover:bg-gray-50">
+                            <label class="flex items-center p-2 rounded hover:bg-gray-50 cursor-pointer"
+                                   x-show="'{{ strtolower($tag->name) }}'.includes(searchQuery.toLowerCase())">
                                 <input type="checkbox" 
                                        name="tags[]" 
                                        value="{{ $tag->id }}" 
@@ -639,6 +652,12 @@ function downloadLinks(initialLinks) {
         removeLink(index) {
             this.links.splice(index, 1);
         }
+    }
+}
+
+function tagSearch() {
+    return {
+        searchQuery: ''
     }
 }
 
