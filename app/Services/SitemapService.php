@@ -12,7 +12,9 @@ class SitemapService
 
     public function __construct()
     {
-        $this->sitemapPath = public_path('sitemap.xml');
+        // Generate sitemap in base path (document root) instead of public folder
+        // This is needed because Hostinger's document root is /public_html/ not /public_html/public/
+        $this->sitemapPath = base_path('sitemap.xml');
     }
 
     public function generate(): bool

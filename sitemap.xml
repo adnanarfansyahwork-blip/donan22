@@ -1,50 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://donan22.com</loc>
-    <lastmod>2025-12-18T19:29:19+00:00</lastmod>
+    <loc>http://localhost</loc>
+    <lastmod>2025-12-22T11:13:40+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://donan22.com/post/download-microsoft-office-2021-pro-full-unlocked</loc>
-    <lastmod>2025-12-18T19:27:33+00:00</lastmod>
+    <loc>http://localhost/post/contoh-post</loc>
+    <lastmod>2025-12-22T08:32:54+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://donan22.com/category/uncategorized</loc>
-    <lastmod>2025-12-18T04:38:36+00:00</lastmod>
+    <loc>http://localhost/category/uncategorized</loc>
+    <lastmod>2025-12-18T11:38:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://donan22.com/category/technology</loc>
-    <lastmod>2025-12-18T04:38:36+00:00</lastmod>
+    <loc>http://localhost/category/technology</loc>
+    <lastmod>2025-12-18T11:38:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://donan22.com/category/tutorials</loc>
-    <lastmod>2025-12-18T04:38:36+00:00</lastmod>
+    <loc>http://localhost/category/tutorials</loc>
+    <lastmod>2025-12-18T11:38:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://donan22.com/about</loc>
-    <lastmod>2025-12-18T19:29:19+00:00</lastmod>
+    <loc>http://localhost/category/software</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/activator</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/antivirus</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/audio-editor</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/video-editor</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/photo-editor</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/art-design</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/downloader</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/office</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/utilities</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/multimedia</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/security</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/driver</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/engineering</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/recovery</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/converter</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/screen-recorder</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/tutorial</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/tips-tricks</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/windows</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/mac</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/linux</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/games</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/news</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/category/review</loc>
+    <lastmod>2025-12-22T09:32:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/about</loc>
+    <lastmod>2025-12-22T11:13:40+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://donan22.com/contact</loc>
-    <lastmod>2025-12-18T19:29:19+00:00</lastmod>
+    <loc>http://localhost/contact</loc>
+    <lastmod>2025-12-22T11:13:40+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://donan22.com/blog</loc>
-    <lastmod>2025-12-18T19:29:19+00:00</lastmod>
+    <loc>http://localhost/blog</loc>
+    <lastmod>2025-12-22T11:13:40+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

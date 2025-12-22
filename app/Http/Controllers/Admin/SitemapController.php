@@ -14,7 +14,7 @@ class SitemapController extends Controller
 {
     public function index(): View
     {
-        $sitemapPath = public_path('sitemap.xml');
+        $sitemapPath = base_path('sitemap.xml');
         $sitemapExists = file_exists($sitemapPath);
         
         $sitemapInfo = null;
@@ -53,7 +53,7 @@ class SitemapController extends Controller
         ];
         
         // Robots.txt info
-        $robotsPath = public_path('robots.txt');
+        $robotsPath = base_path('robots.txt');
         $robotsExists = file_exists($robotsPath);
         $robotsContent = $robotsExists ? file_get_contents($robotsPath) : null;
         
@@ -79,7 +79,7 @@ class SitemapController extends Controller
     
     public function preview(): View
     {
-        $sitemapPath = public_path('sitemap.xml');
+        $sitemapPath = base_path('sitemap.xml');
         $content = file_exists($sitemapPath) ? file_get_contents($sitemapPath) : null;
         
         return view('admin.sitemap.preview', compact('content'));
@@ -92,7 +92,7 @@ class SitemapController extends Controller
         ]);
         
         try {
-            file_put_contents(public_path('robots.txt'), $request->content);
+            file_put_contents(base_path('robots.txt'), $request->content);
             return back()->with('success', 'Robots.txt updated successfully!');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to update robots.txt: ' . $e->getMessage());
