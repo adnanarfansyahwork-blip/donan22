@@ -5,6 +5,13 @@
 
     RewriteEngine On
 
+    # Prevent caching of sitemap.xml and robots.txt
+    <FilesMatch "\.(xml|txt)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
