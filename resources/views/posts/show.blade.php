@@ -665,7 +665,7 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder click counter for download links - Improved version
+    // Popunder click counter for download links - No delay version
     document.addEventListener('DOMContentLoaded', function() {
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         
@@ -683,33 +683,20 @@
                     localStorage.setItem(storageKey, clicks.toString());
                     
                     const btn = this;
-                    const originalText = btn.querySelector('.download-text').innerText;
                     const textElement = btn.querySelector('.download-text');
+                    const originalText = textElement.innerText;
                     
-                    // Disable button temporarily to prevent double clicks
-                    btn.style.pointerEvents = 'none';
-                    btn.style.opacity = '0.7';
+                    // Show message immediately
+                    textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
                     
-                    // Show countdown message
-                    textElement.innerText = 'Please wait... (' + (3 - clicks) + ' more click' + (clicks === 1 ? 's' : '') + ')';
-                    
-                    // Short delay to let popunder script execute
-                    setTimeout(function() {
-                        // Re-enable button
-                        btn.style.pointerEvents = 'auto';
-                        btn.style.opacity = '1';
-                        textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
-                        
-                        // Add visual feedback
-                        btn.classList.add('animate-pulse');
-                        setTimeout(() => btn.classList.remove('animate-pulse'), 2000);
-                    }, 1500);
+                    // Add visual feedback
+                    btn.classList.add('animate-pulse');
+                    setTimeout(() => btn.classList.remove('animate-pulse'), 1000);
                 } else {
                     // 3rd click - allow navigation to download immediately
-                    // Don't prevent default, let the link work
                     localStorage.removeItem(storageKey);
                     
-                    // Optional: Show downloading message
+                    // Show downloading message
                     const textElement = this.querySelector('.download-text');
                     if (textElement) {
                         const originalText = textElement.innerText;
