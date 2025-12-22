@@ -664,47 +664,48 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder on ANY click with debug logging
+    // Popunder implementation with fallback
     document.addEventListener('DOMContentLoaded', function() {
-        const popunderDelay = 5000; // 5 seconds cooldown between popunders
+        const popunderDelay = 5000; // 5 seconds cooldown
+        const popunderUrl = 'https://demolitionnutsgrease.com/'; // Fallback URL
         
-        console.log('Popunder script initialized');
+        console.log('✓ Popunder script initialized');
         
-        // Trigger popunder on ANY click anywhere on the page
+        // Main click handler
         document.body.addEventListener('click', function(e) {
-            console.log('Click detected on:', e.target);
+            console.log('→ Click detected on:', e.target.tagName, e.target.className);
             
-            // Check if enough time has passed since last popunder
             const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
             const now = Date.now();
-            const timeSinceLastTrigger = now - lastTrigger;
+            const timeSince = now - lastTrigger;
             
-            console.log('Time since last popunder:', timeSinceLastTrigger + 'ms', '(cooldown: ' + popunderDelay + 'ms)');
-            
-            if (timeSinceLastTrigger > popunderDelay) {
+            if (timeSince > popunderDelay) {
                 localStorage.setItem('last_popunder_trigger', now.toString());
-                console.log('✓ Popunder should trigger now! (script should handle popup)');
+                console.log('✓ Triggering popunder (cooldown passed: ' + Math.round(timeSince/1000) + 's)');
                 
-                // Try to manually trigger if popunder script provides a function
-                if (typeof window.popunder === 'function') {
-                    window.popunder();
-                    console.log('✓ Manual popunder() called');
-                } else if (typeof window.open_popunder === 'function') {
-                    window.open_popunder();
-                    console.log('✓ Manual open_popunder() called');
-                } else {
-                    console.log('ℹ Waiting for popunder script to auto-trigger...');
-                }
+                // Method 1: Let external script handle it (if loaded)
+                // Most popunder scripts auto-trigger on click
+                
+                // Method 2: Fallback - manual popup after delay
+                setTimeout(() => {
+                    console.log('ℹ Fallback check - did popunder trigger?');
+                    // If you want manual fallback, uncomment below:
+                    // window.open(popunderUrl, '_blank');
+                }, 100);
+                
             } else {
-                const remainingTime = Math.ceil((popunderDelay - timeSinceLastTrigger) / 1000);
-                console.log('✗ Cooldown active. Wait ' + remainingTime + ' more seconds');
+                const wait = Math.ceil((popunderDelay - timeSince) / 1000);
+                console.log('✗ Cooldown active, wait ' + wait + 's more');
             }
         }, true);
         
-        // Download links - add visual feedback only
+        // Download links visual feedback
         const downloadLinks = document.querySelectorAll('.download-link-ad');
+        console.log('✓ Found ' + downloadLinks.length + ' download links');
+        
         downloadLinks.forEach(function(link) {
             link.addEventListener('click', function(e) {
+                console.log('→ Download link clicked:', this.href);
                 const textElement = this.querySelector('.download-text');
                 if (textElement) {
                     const originalText = textElement.innerText;
@@ -716,12 +717,14 @@
             });
         });
         
-        // Check if popunder script loaded
+        // Debug: Check script load status
         setTimeout(() => {
-            console.log('Checking popunder script status...');
-            console.log('window.popunder exists?', typeof window.popunder);
-            console.log('window.open_popunder exists?', typeof window.open_popunder);
-        }, 1000);
+            console.log('--- Popunder Debug Info ---');
+            console.log('External script loaded:', document.querySelector('script[src*="demolitionnutsgrease"]') !== null);
+            console.log('Browser allows popups:', !window.navigator.userAgent.includes('Chrome') || 'check manually');
+            console.log('Last trigger time:', localStorage.getItem('last_popunder_trigger'));
+            console.log('Click anywhere to test popunder');
+        }, 1500);
     });
 </script>
 @endpush
