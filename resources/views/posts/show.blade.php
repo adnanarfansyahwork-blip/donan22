@@ -481,7 +481,6 @@
                             <div class="space-y-2">
                                 @foreach($post->downloadLinks as $link)
                                     <a href="{{ route('go.download', ['post' => $post->slug, 'linkIndex' => $loop->index]) }}"
-                                       target="_blank" rel="noopener"
                                        class="download-link-ad flex items-center gap-3 p-3 bg-gray-50 hover:bg-green-50 rounded-lg border border-gray-200 hover:border-green-300 transition-all group" data-link-id="{{ $loop->index }}">
                                         <div class="w-10 h-10 rounded-lg bg-green-100 group-hover:bg-green-200 flex items-center justify-center text-green-600 transition-colors flex-shrink-0">
                                             <i class="bi bi-cloud-arrow-down text-lg"></i>
@@ -665,16 +664,28 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder on body/content area click (not on download buttons)
+    // Popunder on body/content area click (not on interactive elements)
     document.addEventListener('DOMContentLoaded', function() {
-        let popunderTriggered = false;
         const popunderDelay = 5000; // 5 seconds cooldown between popunders
         
-        // Trigger popunder on any click in content area (excluding download links)
+        // Trigger popunder on any click in content area (excluding interactive elements)
         document.body.addEventListener('click', function(e) {
-            // Don't trigger on download links or their children
-            if (e.target.closest('.download-link-ad')) {
-                return;
+            // Don't trigger on interactive elements: links, buttons, inputs, etc
+            const excludedSelectors = [
+                '.download-link-ad',
+                'a[href]',
+                'button',
+                'input',
+                'textarea',
+                'select',
+                '[onclick]',
+                '[role="button"]'
+            ];
+            
+            for (let selector of excludedSelectors) {
+                if (e.target.closest(selector)) {
+                    return; // Exit early if clicking on excluded element
+                }
             }
             
             // Check if enough time has passed since last popunder
@@ -687,11 +698,10 @@
             }
         }, true);
         
-        // Download links work normally - direct navigation
+        // Download links - add visual feedback only
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         downloadLinks.forEach(function(link) {
             link.addEventListener('click', function(e) {
-                // Just let it navigate normally
                 const textElement = this.querySelector('.download-text');
                 if (textElement) {
                     const originalText = textElement.innerText;
