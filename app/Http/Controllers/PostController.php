@@ -112,6 +112,15 @@ class PostController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
             'author_name' => 'required|string|max:100',
             'author_email' => 'required|email|max:255',
+        ], [
+            'content.required' => 'Comment content is required.',
+            'content.min' => 'Comment must be at least 10 characters.',
+            'content.max' => 'Comment must not exceed 2000 characters.',
+            'author_name.required' => 'Name is required.',
+            'author_name.max' => 'Name must not exceed 100 characters.',
+            'author_email.required' => 'Email is required.',
+            'author_email.email' => 'Please enter a valid email address.',
+            'author_email.max' => 'Email must not exceed 255 characters.',
         ]);
 
         $post = Post::findOrFail($validated['post_id']);

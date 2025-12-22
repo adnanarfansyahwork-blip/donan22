@@ -415,11 +415,13 @@
                             </div>
                             
                             <div class="mb-3">
-                                <textarea name="content" rows="3" placeholder="Write your comment..." required
+                                <textarea name="content" rows="3" placeholder="Write your comment (minimum 10 characters)..." required
+                                          minlength="10"
                                           class="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition resize-none">{{ old('content') }}</textarea>
                                 @error('content')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
+                                <p class="mt-1 text-xs text-gray-500">Minimum 10 characters required</p>
                             </div>
                             
                             <button type="submit" 
