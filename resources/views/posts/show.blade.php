@@ -665,7 +665,7 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder click counter for download links - Fixed blank tab issue
+    // Popunder click counter - Optimized like kuyhaa (no blank tabs)
     document.addEventListener('DOMContentLoaded', function() {
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         
@@ -674,36 +674,35 @@
             const storageKey = 'download_clicks_' + linkId;
             const originalUrl = link.href;
             
+            // Store original href and replace with javascript:void(0)
+            link.setAttribute('data-original-href', originalUrl);
+            
             link.addEventListener('click', function(e) {
-                e.preventDefault(); // Always prevent default
+                e.preventDefault();
+                e.stopPropagation();
                 
                 let clicks = parseInt(localStorage.getItem(storageKey) || '0');
                 clicks++;
                 
-                const btn = this;
-                const textElement = btn.querySelector('.download-text');
+                const textElement = this.querySelector('.download-text');
                 
                 if (clicks < 3) {
-                    // First 2 clicks - just count and show message
+                    // First 2 clicks - just count, popunder will trigger automatically
                     localStorage.setItem(storageKey, clicks.toString());
-                    
-                    // Show message immediately
                     textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
                     
-                    // Add visual feedback
-                    btn.classList.add('animate-pulse');
-                    setTimeout(() => btn.classList.remove('animate-pulse'), 1000);
-                    
-                    // Let popunder script run in background
+                    // Visual feedback
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => this.classList.remove('animate-pulse'), 800);
                 } else {
-                    // 3rd click - manually redirect to download URL
+                    // 3rd click - redirect to actual download page
                     localStorage.removeItem(storageKey);
                     textElement.innerText = 'Opening Download...';
                     
-                    // Open download in new tab after short delay
+                    // Use location.href instead of window.open to avoid popup blockers
                     setTimeout(() => {
-                        window.open(originalUrl, '_blank', 'noopener,noreferrer');
-                    }, 300);
+                        window.location.href = originalUrl;
+                    }, 200);
                 }
             });
         });
