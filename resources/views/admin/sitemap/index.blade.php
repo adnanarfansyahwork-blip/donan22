@@ -110,10 +110,10 @@
                 
                 <!-- URL Preview -->
                 <div class="mt-6">
-                    <h3 class="font-medium text-gray-900 mb-3">URL Preview (First 10)</h3>
-                    <div class="bg-gray-50 rounded-lg p-4 max-h-60 overflow-y-auto">
+                    <h3 class="font-medium text-gray-900 mb-3">All URLs ({{ count($urls) }})</h3>
+                    <div class="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto">
                         <ul class="space-y-2 text-sm">
-                            @foreach(array_slice($urls, 0, 10) as $url)
+                            @foreach($urls as $url)
                                 <li class="flex items-start">
                                     <i class="bi bi-link text-gray-400 mt-0.5 mr-2"></i>
                                     <div>
@@ -127,9 +127,6 @@
                                 </li>
                             @endforeach
                         </ul>
-                        @if(count($urls) > 10)
-                            <p class="text-gray-500 text-sm mt-3">... and {{ count($urls) - 10 }} more URLs</p>
-                        @endif
                     </div>
                 </div>
             @else
