@@ -291,8 +291,9 @@ class PostController extends Controller
      */
     protected function uploadFeaturedImage($file): string
     {
-        // Create directory if not exists
-        $uploadPath = public_path('uploads/posts');
+        // Use base_path to save to project root uploads folder
+        // This ensures files go to public_html/uploads/posts, not public_html/public/uploads/posts
+        $uploadPath = base_path('uploads/posts');
         if (!file_exists($uploadPath)) {
             mkdir($uploadPath, 0755, true);
         }
@@ -300,7 +301,7 @@ class PostController extends Controller
         // Generate unique filename
         $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
         
-        // Save directly to public/uploads/posts
+        // Save to uploads/posts (outside public folder)
         $file->move($uploadPath, $filename);
         
         // Return just the filename (not full path)
@@ -316,8 +317,8 @@ class PostController extends Controller
             return;
         }
 
-        // Delete from public/uploads/posts
-        $filePath = public_path('uploads/posts/' . basename($filename));
+        // Delete from uploads/posts (outside public folder)
+        $filePath = base_path('uploads/posts/' . basename($filename));
         if (file_exists($filePath)) {
             unlink($filePath);
         }
