@@ -538,7 +538,7 @@
                 @if($tags->count() > 0)
                     <div class="space-y-2 max-h-64 overflow-y-auto">
                         @php
-                            $selectedTags = old('tags', $isEdit ? $post->tags->pluck('id')->toArray() : []);
+                            $selectedTags = old('tags', $isEdit && $post->tags ? $post->tags->pluck('id')->toArray() : []);
                         @endphp
                         @foreach($tags as $tag)
                             <label class="flex items-center p-2 rounded hover:bg-gray-50">
