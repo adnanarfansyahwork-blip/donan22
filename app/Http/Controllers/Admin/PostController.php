@@ -136,8 +136,13 @@ class PostController extends Controller
      */
     public function edit(Post $post): View
     {
-        // Load relations
-        $post->load(['softwareDetail', 'downloadLinks', 'tags']);
+        // Load relations - ensure tags is always a collection
+        $post->loadMissing(['softwareDetail', 'downloadLinks', 'tags']);
+        
+        // Ensure tags is always a collection, never null
+        if (!$post->relationLoaded('tags')) {
+            $post->setRelation('tags', collect());
+        }
 
         $categories = Category::active()->ordered()->get();
         $postTypes = PostType::active()->orderBy('name')->get();
