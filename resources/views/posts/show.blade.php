@@ -8,6 +8,240 @@
 @section('og_image', $post->featured_image_url)
 @section('og_type', 'article')
 
+@push('styles')
+<style>
+/* Post Content Styling */
+.post-content {
+    max-width: none;
+    color: #374151;
+    line-height: 1.75;
+}
+
+/* Headings */
+.post-content h1 {
+    font-size: 1.875rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid #3b82f6 !important;
+    line-height: 1.25 !important;
+}
+
+.post-content h2 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 1.75rem !important;
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    line-height: 1.3 !important;
+}
+
+.post-content h3 {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+    line-height: 1.35 !important;
+}
+
+.post-content h4 {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.4 !important;
+}
+
+.post-content h5 {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.post-content h6 {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #4b5563 !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Paragraphs */
+.post-content p {
+    margin-bottom: 1rem !important;
+    color: #374151 !important;
+    line-height: 1.75 !important;
+}
+
+.post-content p:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Links */
+.post-content a {
+    color: #3b82f6 !important;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.post-content a:hover {
+    text-decoration: underline;
+    color: #2563eb !important;
+}
+
+/* Strong & Em */
+.post-content strong, 
+.post-content b {
+    font-weight: 600 !important;
+    color: #111827 !important;
+}
+
+.post-content em, 
+.post-content i {
+    font-style: italic !important;
+}
+
+/* Lists */
+.post-content ul,
+.post-content ol {
+    margin: 1rem 0 !important;
+    padding-left: 1.5rem !important;
+}
+
+.post-content ul {
+    list-style-type: disc !important;
+}
+
+.post-content ol {
+    list-style-type: decimal !important;
+}
+
+.post-content li {
+    margin: 0.5rem 0 !important;
+    color: #374151 !important;
+    line-height: 1.75 !important;
+}
+
+.post-content li > ul,
+.post-content li > ol {
+    margin: 0.5rem 0 !important;
+}
+
+/* Images */
+.post-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+/* Code */
+.post-content code {
+    background-color: #f3f4f6 !important;
+    color: #1f2937 !important;
+    padding: 0.125rem 0.375rem !important;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: ui-monospace, monospace !important;
+}
+
+.post-content pre {
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.25rem 0 !important;
+}
+
+.post-content pre code {
+    background-color: transparent !important;
+    color: #f3f4f6 !important;
+    padding: 0 !important;
+}
+
+/* Blockquotes */
+.post-content blockquote {
+    border-left: 4px solid #3b82f6 !important;
+    padding-left: 1rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    margin: 1.5rem 0 !important;
+    font-style: italic;
+    color: #4b5563 !important;
+    background-color: #f9fafb;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.post-content blockquote p {
+    margin: 0 !important;
+}
+
+/* HR */
+.post-content hr {
+    border: none !important;
+    border-top: 1px solid #e5e7eb !important;
+    margin: 2rem 0 !important;
+}
+
+/* Tables */
+.post-content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1.5rem 0 !important;
+    font-size: 0.875rem;
+}
+
+.post-content thead {
+    background-color: #f9fafb !important;
+    border-bottom: 2px solid #d1d5db !important;
+}
+
+.post-content th {
+    border: 1px solid #e5e7eb !important;
+    padding: 0.75rem !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+}
+
+.post-content td {
+    border: 1px solid #e5e7eb !important;
+    padding: 0.75rem !important;
+    color: #374151 !important;
+}
+
+.post-content tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* Remove Summernote default margins */
+.post-content * {
+    margin-top: 0;
+}
+
+.post-content > *:first-child {
+    margin-top: 0 !important;
+}
+
+.post-content > *:last-child {
+    margin-bottom: 0 !important;
+}
+</style>
+@endpush
+
 @section('content')
 <article class="py-6 lg:py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,19 +325,7 @@
 
                 <!-- Content -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 mb-6 shadow-sm">
-                    <div class="prose prose-gray max-w-none
-                                prose-headings:text-gray-900 prose-headings:font-bold
-                                prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3 prose-h2:pb-2 prose-h2:border-b prose-h2:border-gray-100
-                                prose-h3:text-lg prose-h3:mt-5 prose-h3:mb-2
-                                prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
-                                prose-a:text-primary-600 prose-a:font-medium hover:prose-a:underline
-                                prose-strong:text-gray-900
-                                prose-ul:my-3 prose-ol:my-3 prose-li:text-gray-700 prose-li:my-1
-                                prose-img:rounded-lg prose-img:shadow-sm prose-img:my-4
-                                prose-code:bg-gray-100 prose-code:text-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
-                                prose-pre:bg-gray-900 prose-pre:rounded-lg prose-pre:my-4
-                                prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600
-                                prose-table:border-collapse prose-th:bg-gray-50 prose-th:border prose-th:border-gray-200 prose-th:p-2 prose-td:border prose-td:border-gray-200 prose-td:p-2">
+                    <div class="post-content">
                         {!! $post->content !!}
                     </div>
                 </div>
@@ -443,7 +665,7 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder click counter for download links
+    // Popunder click counter for download links - Improved version
     document.addEventListener('DOMContentLoaded', function() {
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         
@@ -455,29 +677,47 @@
                 let clicks = parseInt(localStorage.getItem(storageKey) || '0');
                 
                 if (clicks < 2) {
-                    // First 2 clicks - let popunder open, prevent navigation
+                    // First 2 clicks - show message and trigger popunder
                     e.preventDefault();
                     clicks++;
                     localStorage.setItem(storageKey, clicks.toString());
                     
-                    // Show countdown message
                     const btn = this;
                     const originalText = btn.querySelector('.download-text').innerText;
-                    btn.querySelector('.download-text').innerText = 'Click ' + (3 - clicks) + ' more time(s)...';
+                    const textElement = btn.querySelector('.download-text');
                     
-                    // Add 0.5 second delay before opening popunder
+                    // Disable button temporarily to prevent double clicks
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.7';
+                    
+                    // Show countdown message
+                    textElement.innerText = 'Please wait... (' + (3 - clicks) + ' more click' + (clicks === 1 ? 's' : '') + ')';
+                    
+                    // Short delay to let popunder script execute
                     setTimeout(function() {
-                        // Trigger popunder by simulating window open
-                        window.open('about:blank', '_blank');
+                        // Re-enable button
+                        btn.style.pointerEvents = 'auto';
+                        btn.style.opacity = '1';
+                        textElement.innerText = 'Click ' + (3 - clicks) + ' More Time' + (clicks === 1 ? 's' : '');
                         
-                        // Reset button text after popunder opens
-                        setTimeout(function() {
-                            btn.querySelector('.download-text').innerText = originalText;
-                        }, 1000);
-                    }, 500);
+                        // Add visual feedback
+                        btn.classList.add('animate-pulse');
+                        setTimeout(() => btn.classList.remove('animate-pulse'), 2000);
+                    }, 1500);
                 } else {
-                    // 3rd click - allow navigation to download
+                    // 3rd click - allow navigation to download immediately
+                    // Don't prevent default, let the link work
                     localStorage.removeItem(storageKey);
+                    
+                    // Optional: Show downloading message
+                    const textElement = this.querySelector('.download-text');
+                    if (textElement) {
+                        const originalText = textElement.innerText;
+                        textElement.innerText = 'Opening Download...';
+                        setTimeout(() => {
+                            textElement.innerText = originalText;
+                        }, 2000);
+                    }
                 }
             });
         });
