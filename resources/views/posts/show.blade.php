@@ -664,19 +664,40 @@
 <!-- Popunder Ads Script -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 <script>
-    // Popunder on ANY click (including links, buttons, etc)
+    // Popunder on ANY click with debug logging
     document.addEventListener('DOMContentLoaded', function() {
         const popunderDelay = 5000; // 5 seconds cooldown between popunders
         
+        console.log('Popunder script initialized');
+        
         // Trigger popunder on ANY click anywhere on the page
         document.body.addEventListener('click', function(e) {
+            console.log('Click detected on:', e.target);
+            
             // Check if enough time has passed since last popunder
             const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
             const now = Date.now();
+            const timeSinceLastTrigger = now - lastTrigger;
             
-            if (now - lastTrigger > popunderDelay) {
+            console.log('Time since last popunder:', timeSinceLastTrigger + 'ms', '(cooldown: ' + popunderDelay + 'ms)');
+            
+            if (timeSinceLastTrigger > popunderDelay) {
                 localStorage.setItem('last_popunder_trigger', now.toString());
-                // Popunder script will handle the actual popup
+                console.log('✓ Popunder should trigger now! (script should handle popup)');
+                
+                // Try to manually trigger if popunder script provides a function
+                if (typeof window.popunder === 'function') {
+                    window.popunder();
+                    console.log('✓ Manual popunder() called');
+                } else if (typeof window.open_popunder === 'function') {
+                    window.open_popunder();
+                    console.log('✓ Manual open_popunder() called');
+                } else {
+                    console.log('ℹ Waiting for popunder script to auto-trigger...');
+                }
+            } else {
+                const remainingTime = Math.ceil((popunderDelay - timeSinceLastTrigger) / 1000);
+                console.log('✗ Cooldown active. Wait ' + remainingTime + ' more seconds');
             }
         }, true);
         
@@ -694,6 +715,13 @@
                 }
             });
         });
+        
+        // Check if popunder script loaded
+        setTimeout(() => {
+            console.log('Checking popunder script status...');
+            console.log('window.popunder exists?', typeof window.popunder);
+            console.log('window.open_popunder exists?', typeof window.open_popunder);
+        }, 1000);
     });
 </script>
 @endpush
