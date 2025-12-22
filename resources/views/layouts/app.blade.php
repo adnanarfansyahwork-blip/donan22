@@ -52,12 +52,27 @@
     @if (file_exists(public_path('build/manifest.json')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
-        <link rel="stylesheet" href="/build/assets/app-BwEXT_m1.css">
+        <link rel="stylesheet" href="/build/assets/app-DEg3F6-3.css">
         <script src="/build/assets/app-CAiCLEjY.js" defer></script>
     @endif
     
     <style>
         [x-cloak] { display: none !important; }
+        
+        /* Remove underline from all links */
+        a {
+            text-decoration: none !important;
+        }
+        
+        a:hover {
+            text-decoration: none !important;
+        }
+        
+        /* Keep underline for content/prose links only */
+        .prose a:hover,
+        .content a:hover {
+            text-decoration: underline !important;
+        }
     </style>
     
     @stack('styles')

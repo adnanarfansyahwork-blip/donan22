@@ -21,3 +21,13 @@
     --color-primary-900: oklch(37.9% .146 265);
     --color-primary-950: oklch(28.2% .091 267);
 }
+
+/* Remove underline from all links globally */
+a {
+    text-decoration: none;
+}
+
+/* Keep underline for prose/content links on hover for better UX */
+.prose a:hover {
+    text-decoration: underline;
+}

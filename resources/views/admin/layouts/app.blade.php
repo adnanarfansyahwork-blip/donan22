@@ -17,15 +17,32 @@
     @if (file_exists(public_path('build/manifest.json')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
-        <link rel="stylesheet" href="/build/assets/app-BwEXT_m1.css">
+        <link rel="stylesheet" href="/build/assets/app-DEg3F6-3.css">
         <script src="/build/assets/app-CAiCLEjY.js" defer></script>
     @endif
 
     @stack('styles')
+    <!-- Bootstrap CSS (required for Summernote) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Summernote CSS -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     
-    @stack('styles')
+    <!-- Custom CSS to override Bootstrap styles -->
+    <style>
+        a {
+            text-decoration: none !important;
+        }
+        
+        a:hover {
+            text-decoration: none !important;
+        }
+        
+        /* Keep underline for content/prose links only */
+        .prose a:hover,
+        .content a:hover {
+            text-decoration: underline !important;
+        }
+    </style>
 </head>
 <body class="font-sans antialiased bg-gray-100" x-data="{ sidebarOpen: true }" x-cloak>
     <div class="flex min-h-screen">
@@ -159,13 +176,15 @@
         </div>
     </div>
 
+    <!-- jQuery (required for Summernote) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle (includes Popper.js, required for Summernote) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <!-- Alpine.js Collapse Plugin -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- jQuery (required for Summernote) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Summernote JS -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
     @stack('scripts')
 </body>
