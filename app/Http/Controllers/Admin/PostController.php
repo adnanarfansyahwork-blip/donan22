@@ -121,6 +121,17 @@ class PostController extends Controller
     }
 
     /**
+     * Display the specified post.
+     */
+    public function show(Post $post): View
+    {
+        // Load relations
+        $post->load(['softwareDetail', 'downloadLinks', 'tags', 'user', 'category', 'postType']);
+
+        return view('admin.posts.show', compact('post'));
+    }
+
+    /**
      * Show the form for editing the specified post.
      */
     public function edit(Post $post): View
