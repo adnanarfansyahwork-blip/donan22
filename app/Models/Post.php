@@ -284,53 +284,44 @@ class Post extends Model
      */
     public function scopeSearch($query, string $term)
     {
-        return $query->where(function ($q) use ($term) {
-            // Split search term into individual keywords
-            $keywords = array_filter(explode(' ', strtolower($term)));
-            
-            foreach ($keywords as $keyword) {
-                $q->where(function ($subQuery) use ($keyword) {
-                    // Search in title (highest priority)
-                    $subQuery->where('title', 'like', "%{$keyword}%")
-                        // Search in excerpt
-                        ->orWhere('excerpt', 'like', "%{$keyword}%")
-                        // Search in content
-                        ->orWhere('content', 'like', "%{$keyword}%")
-                        // Search in meta keywords
-                        ->orWhere('meta_keywords', 'like', "%{$keyword}%")
-                        // Search in meta description
-                        ->orWhere('meta_description', 'like', "%{$keyword}%")
-                        // Search in tags
-                        ->orWhereHas('tags', function ($tagQuery) use ($keyword) {
-                            $tagQuery->where('name', 'like', "%{$keyword}%");
-                        })
-                        // Search in category
-                        ->orWhereHas('category', function ($catQuery) use ($keyword) {
-                            $catQuery->where('name', 'like', "%{$keyword}%");
-                        })
-                        // Search in software details
-                        ->orWhereHas('softwareDetail', function ($softQuery) use ($keyword) {
-                            $softQuery->where('version', 'like', "%{$keyword}%")
-                                ->orWhere('developer', 'like', "%{$keyword}%")
-                                ->orWhere('os_requirements', 'like', "%{$keyword}%");
-                        });
+        $keywords = array_filter(explode(' ', $term));
+        
+        return $query->where(function ($q) use ($term, $keywords) {
+            // Search for exact phrase first (highest priority)
+            $q->where('title', 'like', "%{$term}%")
+                ->orWhere('excerpt', 'like', "%{$term}%")
+                ->orWhere('meta_keywords', 'like', "%{$term}%")
+                ->orWhere('meta_description', 'like', "%{$term}%")
+                ->orWhere('content', 'like', "%{$term}%")
+                // Search in tags
+                ->orWhereHas('tags', function ($tagQuery) use ($term) {
+                    $tagQuery->where('name', 'like', "%{$term}%");
+                })
+                // Search in category
+                ->orWhereHas('category', function ($catQuery) use ($term) {
+                    $catQuery->where('name', 'like', "%{$term}%");
+                })
+                // Search in software details
+                ->orWhereHas('softwareDetail', function ($softQuery) use ($term) {
+                    $softQuery->where('version', 'like', "%{$term}%")
+                        ->orWhere('developer', 'like', "%{$term}%")
+                        ->orWhere('os_requirements', 'like', "%{$term}%");
                 });
+            
+            // Also search for individual keywords
+            foreach ($keywords as $keyword) {
+                $q->orWhere('title', 'like', "%{$keyword}%")
+                    ->orWhere('excerpt', 'like', "%{$keyword}%")
+                    ->orWhere('content', 'like', "%{$keyword}%");
             }
         })->orderByRaw(
-            // Order by relevance: title matches first, then excerpt, then content
             "CASE 
-                WHEN LOWER(title) LIKE LOWER(?) THEN 1 
-                WHEN LOWER(title) LIKE LOWER(?) THEN 2
-                WHEN LOWER(excerpt) LIKE LOWER(?) THEN 3
-                WHEN LOWER(meta_keywords) LIKE LOWER(?) THEN 4
-                ELSE 5 
-            END",
-            [
-                "%{$term}%",  // Exact phrase in title
-                "%" . str_replace(' ', '%', $term) . "%",  // All words in title
-                "%{$term}%",  // Exact phrase in excerpt
-                "%{$term}%"   // Exact phrase in meta keywords
-            ]
+                WHEN LOWER(title) LIKE LOWER(?) THEN 1
+                WHEN LOWER(excerpt) LIKE LOWER(?) THEN 2
+                WHEN LOWER(meta_keywords) LIKE LOWER(?) THEN 3
+                ELSE 4
+            END, published_at DESC",
+            ["%{$term}%", "%{$term}%", "%{$term}%"]
         );
     }
 
@@ -649,29 +640,6 @@ class Post extends Model
         ];
     }
 
-    /**
-     * Scope a query to filter software posts.
-     */
-    public function scopeSoftware($query)
-    {
-        return $query->whereHas('postType', fn($q) => $q->where('slug', 'software'));
-    }
-
-    /**
-     * Scope a query to filter mobile apps posts.
-     */
-    public function scopeMobileApps($query)
-    {
-        return $query->whereHas('postType', fn($q) => $q->where('slug', 'mobile-apps'));
-    }
-
-    /**
-     * Scope a query to filter tutorials posts.
-     */
-    public function scopeTutorials($query)
-    {
-        return $query->whereHas('postType', fn($q) => $q->where('slug', 'tutorial'));
-    }
 }
 
 
