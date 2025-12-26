@@ -1,9 +1,9 @@
 {{-- Post Card Horizontal - Inspired by yasir252.com & sadeempc.com --}}
 <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 group">
-    <a href="{{ $post->url }}" class="flex flex-col sm:flex-row">
-        {{-- Thumbnail Image --}}
-        <div class="relative sm:w-52 md:w-60 flex-shrink-0">
-            <div class="aspect-video sm:aspect-[4/3] h-full bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+    <a href="{{ $post->url }}" class="flex flex-col sm:flex-row h-full">
+        {{-- Thumbnail Image - Fixed size container --}}
+        <div class="relative w-full sm:w-44 md:w-48 flex-shrink-0">
+            <div class="h-32 sm:h-full w-full bg-gray-100 overflow-hidden">
                 <img src="{{ $post->featured_image_url }}" 
                      alt="{{ $post->featured_image_alt ?? $post->title }}" 
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
