@@ -121,11 +121,12 @@
             @php
                 $maxViews = $dailyViews->max('views') ?: 1;
                 $percentage = min(100, ($day->views / $maxViews) * 100);
+                $widthStyle = 'width: ' . $percentage . '%';
             @endphp
             <div class="flex items-center gap-4">
                 <span class="w-24 text-sm text-gray-500">{{ \Carbon\Carbon::parse($day->date)->format('M d') }}</span>
                 <div class="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                    <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $percentage }}%"></div>
+                    <div class="bg-blue-500 h-4 rounded-full" style="{{ $widthStyle }}"></div>
                 </div>
                 <span class="w-16 text-sm text-gray-900 text-right">{{ number_format($day->views) }}</span>
             </div>
