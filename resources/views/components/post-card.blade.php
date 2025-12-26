@@ -31,7 +31,13 @@
             
             <!-- Excerpt -->
             @if($post->excerpt)
-                <p class="text-sm text-gray-600 mb-3">{{ $post->excerpt }}</p>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-3">
+                    @if(isset($excerpt_limit))
+                        {{ Str::limit($post->excerpt, $excerpt_limit) }}
+                    @else
+                        {{ $post->excerpt }}
+                    @endif
+                </p>
             @endif
             
             <!-- Meta -->
