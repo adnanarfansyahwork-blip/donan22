@@ -26,13 +26,13 @@
             </div>
             
             <!-- Title -->
-            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-3 group-hover:text-primary-600 transition-colors flex-shrink-0 min-h-[3.5rem]">
+            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-3 group-hover:text-primary-600 transition-colors leading-snug">
                 {{ $post->title }}
             </h3>
             
             <!-- Excerpt -->
-            <p class="text-sm text-gray-600 mb-3 line-clamp-2 h-10 overflow-hidden">
-                {{ Str::limit($post->excerpt ?? '', 80) }}
+            <p class="text-sm text-gray-600 mb-3 line-clamp-2 leading-relaxed">
+                {{ Str::limit($post->excerpt ?? '', 90) }}
             </p>
             
             <!-- Meta -->
