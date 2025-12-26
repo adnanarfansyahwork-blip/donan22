@@ -1,7 +1,7 @@
 <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group h-full flex flex-col">
     <a href="{{ $post->url }}" class="block flex flex-col h-full">
         <!-- Image -->
-        <div class="aspect-[4/3] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative flex-shrink-0 flex items-center justify-center">
+        <div class="h-48 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative flex-shrink-0">
             <img src="{{ $post->featured_image_url }}" 
                  alt="{{ $post->featured_image_alt ?? $post->title }}" 
                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300" 
