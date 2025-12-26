@@ -881,10 +881,3 @@
 })();
 </script>
 @endpush
-        el.innerText = remaining === 1 
-            ? 'Click 1 More Time' 
-            : 'Click ' + remaining + ' More Times';
-    }
-})();
-</script>
-@endpush
