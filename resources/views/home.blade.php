@@ -177,37 +177,6 @@
     </div>
 </section>
 
-<!-- Categories -->
-@if($categories->count())
-<section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-2xl font-bold text-gray-900">
-                <i class="bi bi-grid text-primary-600 mr-2"></i> Browse Categories
-            </h2>
-            <a href="{{ route('categories.index') }}" class="text-primary-600 hover:text-primary-700 font-medium">
-                View All <i class="bi bi-arrow-right"></i>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            @foreach($categories->take(12) as $category)
-                <a href="{{ route('categories.show', $category->slug) }}"
-                   class="bg-white rounded-xl p-4 text-center hover:shadow-lg transition-shadow border border-gray-200 group">
-                    @if($category->icon)
-                        <i class="bi {{ $category->icon }} text-3xl text-primary-600 mb-2 group-hover:scale-110 transition-transform inline-block"></i>
-                    @else
-                        <i class="bi bi-folder text-3xl text-primary-600 mb-2 group-hover:scale-110 transition-transform inline-block"></i>
-                    @endif
-                    <h3 class="font-medium text-gray-900 text-sm">{{ $category->name }}</h3>
-                    <span class="text-xs text-gray-500">{{ $category->posts_count }} posts</span>
-                </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
 <!-- CTA Section -->
 <section class="py-16 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
