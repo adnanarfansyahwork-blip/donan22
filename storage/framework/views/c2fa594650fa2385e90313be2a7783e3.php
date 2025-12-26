@@ -326,12 +326,22 @@
 
                 </div>
 
+                <!-- Ad Banner Before Content -->
+                <div class="mb-6">
+                    <?php echo $__env->make('components.ads.banner-468x60', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+                </div>
+
                 <!-- Content -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 mb-6 shadow-sm">
                     <div class="post-content">
                         <?php echo $post->content; ?>
 
                     </div>
+                </div>
+
+                <!-- Ad Banner After Content -->
+                <div class="mb-6">
+                    <?php echo $__env->make('components.ads.banner-468x60', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 </div>
 
                 <!-- Tags -->
@@ -508,7 +518,7 @@ unset($__errorArgs, $__bag); ?>
             <aside class="lg:col-span-1 space-y-5">
                 
                 <!-- Download Card - Priority -->
-                <div id="download-card" class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm lg:sticky lg:top-4">
+                <div id="download-card" class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                     <div class="px-4 py-3 bg-gradient-to-r from-green-600 to-green-500">
                         <h3 class="font-bold text-white flex items-center">
                             <i class="bi bi-download mr-2"></i>Download

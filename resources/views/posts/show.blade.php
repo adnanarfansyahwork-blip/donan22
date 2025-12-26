@@ -730,27 +730,27 @@
     }
     
     function init() {
-        console.log('[Popunder] Initializing...');
+        // console.log('[Popunder] Initializing...');
         
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         
         if (!downloadLinks.length) {
-            console.log('[Popunder] No download links found');
+            // console.log('[Popunder] No download links found');
             return;
         }
         
-        console.log('[Popunder] Found ' + downloadLinks.length + ' download link(s)');
+        // console.log('[Popunder] Found ' + downloadLinks.length + ' download link(s)');
         
         downloadLinks.forEach(function(link, idx) {
             setupLink(link, idx);
         });
         
-        // Debug
-        setTimeout(function() {
-            const hasScript = !!document.querySelector('script[src*="demolitionnutsgrease"]');
-            console.log('[Popunder] External script: ' + (hasScript ? 'Loaded ✓' : 'Missing ✗'));
-            console.log('[Popunder] Ready! Click download button ' + REQUIRED_CLICKS + 'x');
-        }, 1500);
+        // Debug - disabled
+        // setTimeout(function() {
+        //     const hasScript = !!document.querySelector('script[src*="demolitionnutsgrease"]');
+        //     console.log('[Popunder] External script: ' + (hasScript ? 'Loaded ✓' : 'Missing ✗'));
+        //     console.log('[Popunder] Ready! Click download button ' + REQUIRED_CLICKS + 'x');
+        // }, 1500);
     }
     
     function setupLink(link, idx) {
