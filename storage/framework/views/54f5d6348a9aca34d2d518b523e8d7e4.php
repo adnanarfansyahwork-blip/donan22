@@ -4,31 +4,31 @@
 <?php $__env->startSection('meta_description', 'Download software PC, mobile apps Android & iOS, and learn IT tutorials. Your trusted source for technology.'); ?>
 
 <?php $__env->startSection('content'); ?>
-<!-- Hero Section -->
-<section class="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white py-16 lg:py-24">
+<!-- Hero Section - Mobile Optimized -->
+<section class="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white py-12 sm:py-16 lg:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto">
-            <h1 class="text-4xl lg:text-5xl font-extrabold mb-6">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 sm:mb-6">
                 IT & Software Learning Hub
             </h1>
-            <p class="text-xl text-primary-100 mb-8">
+            <p class="text-base sm:text-lg lg:text-xl text-primary-100 mb-6 sm:mb-8">
                 Download software, mobile apps, and learn IT tutorials.
                 Your trusted source for the latest technology.
             </p>
 
-            <!-- Quick Stats -->
-            <div class="flex flex-wrap justify-center gap-8 mt-8">
-                <div class="text-center">
-                    <div class="text-3xl font-bold"><?php echo e(\App\Models\Post::where('post_type', 'software')->count()); ?>+</div>
-                    <div class="text-primary-200 text-sm">Software</div>
+            <!-- Quick Stats - Mobile Optimized -->
+            <div class="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 mt-6 sm:mt-8">
+                <div class="text-center min-w-[80px]">
+                    <div class="text-2xl sm:text-3xl font-bold"><?php echo e(\App\Models\Post::where('post_type', 'software')->count()); ?>+</div>
+                    <div class="text-primary-200 text-xs sm:text-sm">Software</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold"><?php echo e(\App\Models\Post::where('post_type', 'mobile-app')->count()); ?>+</div>
-                    <div class="text-primary-200 text-sm">Mobile Apps</div>
+                <div class="text-center min-w-[80px]">
+                    <div class="text-2xl sm:text-3xl font-bold"><?php echo e(\App\Models\Post::where('post_type', 'mobile-app')->count()); ?>+</div>
+                    <div class="text-primary-200 text-xs sm:text-sm">Mobile Apps</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold"><?php echo e(\App\Models\Post::where('post_type', 'tutorial')->count()); ?>+</div>
-                    <div class="text-primary-200 text-sm">Tutorials</div>
+                <div class="text-center min-w-[80px]">
+                    <div class="text-2xl sm:text-3xl font-bold"><?php echo e(\App\Models\Post::where('post_type', 'tutorial')->count()); ?>+</div>
+                    <div class="text-primary-200 text-xs sm:text-sm">Tutorials</div>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
 </section>
 
 <!-- Ad Banner -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
     <?php echo $__env->make('components.ads.banner-468x60', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 </div>
 

@@ -8,6 +8,9 @@
 @theme {
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     
+    /* Custom breakpoint for extra small screens */
+    --breakpoint-xs: 475px;
+    
     /* Custom primary colors (based on blue palette) */
     --color-primary-50: oklch(97% .013 255);
     --color-primary-100: oklch(93.2% .03 256);

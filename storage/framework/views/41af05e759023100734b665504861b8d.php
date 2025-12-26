@@ -41,18 +41,20 @@
     <link rel="manifest" href="<?php echo e(asset('site.webmanifest')); ?>">
     <meta name="theme-color" content="#3b82f6">
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet">
+    <!-- Fonts - Optimized -->
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+    <link rel="preload" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap"></noscript>
     
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Icons - Deferred -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
     
-    <!-- Styles -->
+    <!-- Styles - Optimized -->
     <?php if(file_exists(public_path('build/manifest.json'))): ?>
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     <?php else: ?>
-        <link rel="stylesheet" href="/build/assets/app-DEg3F6-3.css">
+        <link rel="stylesheet" href="/build/assets/app-CHl7Kq-7.css">
         <script src="/build/assets/app-CAiCLEjY.js" defer></script>
     <?php endif; ?>
     
