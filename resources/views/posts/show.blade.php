@@ -719,9 +719,17 @@
 (function() {
     'use strict';
     
+    // DEBUG MODE - Check console for logs
+    const DEBUG = true;
+    function log(...args) {
+        if (DEBUG) console.log('[Popunder]', ...args);
+    }
+    
     // Configuration
     const POPUNDER_COOLDOWN = 5000; // 5 seconds cooldown between popunders
     const REQUIRED_CLICKS = 3; // Required clicks for download
+    
+    log('Script loaded, waiting for DOM...');
     
     // Wait for DOM
     if (document.readyState === 'loading') {
@@ -731,18 +739,27 @@
     }
     
     function init() {
+        log('DOM ready, initializing...');
+        
         // ============================================
         // POPUNDER ON ANY CLICK (entire page)
         // ============================================
         document.body.addEventListener('click', function(e) {
+            log('Click detected on:', e.target.tagName, e.target.className);
+            
             // Check if enough time has passed since last popunder
             const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
             const now = Date.now();
+            const timeSince = now - lastTrigger;
             
-            if (now - lastTrigger > POPUNDER_COOLDOWN) {
+            log('Time since last trigger:', timeSince, 'ms (cooldown:', POPUNDER_COOLDOWN, 'ms)');
+            
+            if (timeSince > POPUNDER_COOLDOWN) {
                 localStorage.setItem('last_popunder_trigger', now.toString());
+                log('✅ Cooldown passed - popunder should trigger now');
                 // Popunder script will handle the actual popup automatically
-                // It detects click events and opens popunder
+            } else {
+                log('⏳ Still in cooldown, remaining:', POPUNDER_COOLDOWN - timeSince, 'ms');
             }
         }, true); // Use capture phase to ensure this runs first
         
@@ -750,14 +767,18 @@
         // DOWNLOAD LINKS - 3 click system
         // ============================================
         const downloadLinks = document.querySelectorAll('.download-link-ad');
+        log('Found download links:', downloadLinks.length);
         
         if (!downloadLinks.length) {
+            log('No download links found!');
             return;
         }
         
         downloadLinks.forEach(function(link, idx) {
             setupDownloadLink(link, idx);
         });
+        
+        log('✅ Initialization complete');
     }
     
     function setupDownloadLink(link, idx) {
@@ -765,6 +786,8 @@
         const linkId = link.dataset.linkId || idx;
         const storageKey = 'dl_' + postSlug + '_' + linkId;
         const originalHref = link.getAttribute('href');
+        
+        log('Setup link #' + idx + ':', originalHref);
         
         // Store original href as data attribute (keep href intact for popunder!)
         link.dataset.targetHref = originalHref;
@@ -776,11 +799,14 @@
         const saved = parseInt(localStorage.getItem(storageKey) || '0');
         if (saved > 0 && saved < REQUIRED_CLICKS) {
             updateText(textEl, REQUIRED_CLICKS - saved);
+            log('Restored state for link #' + idx + ':', saved, 'clicks');
         }
         
         link.addEventListener('click', function(e) {
             let clicks = parseInt(localStorage.getItem(storageKey) || '0');
             clicks++;
+            
+            log('Download link clicked! Total clicks:', clicks, '/', REQUIRED_CLICKS);
             
             if (clicks < REQUIRED_CLICKS) {
                 // Prevent navigation but let popunder script detect the click
@@ -794,6 +820,8 @@
                     link.classList.remove('popunder-active');
                 }, 800);
                 
+                log('Need', REQUIRED_CLICKS - clicks, 'more clicks');
+                
             } else {
                 // On final click, allow navigation (popunder will also trigger)
                 localStorage.removeItem(storageKey);
@@ -802,6 +830,7 @@
                     textEl.innerText = 'Opening...';
                 }
                 
+                log('✅ Final click - navigating to download');
                 // Let the click proceed naturally to the href
             }
         }, false);
