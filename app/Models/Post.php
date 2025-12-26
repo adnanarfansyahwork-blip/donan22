@@ -285,10 +285,53 @@ class Post extends Model
     public function scopeSearch($query, string $term)
     {
         return $query->where(function ($q) use ($term) {
-            $q->where('title', 'like', "%{$term}%")
-              ->orWhere('content', 'like', "%{$term}%")
-              ->orWhere('excerpt', 'like', "%{$term}%");
-        });
+            // Split search term into individual keywords
+            $keywords = array_filter(explode(' ', strtolower($term)));
+            
+            foreach ($keywords as $keyword) {
+                $q->where(function ($subQuery) use ($keyword) {
+                    // Search in title (highest priority)
+                    $subQuery->where('title', 'like', "%{$keyword}%")
+                        // Search in excerpt
+                        ->orWhere('excerpt', 'like', "%{$keyword}%")
+                        // Search in content
+                        ->orWhere('content', 'like', "%{$keyword}%")
+                        // Search in meta keywords
+                        ->orWhere('meta_keywords', 'like', "%{$keyword}%")
+                        // Search in meta description
+                        ->orWhere('meta_description', 'like', "%{$keyword}%")
+                        // Search in tags
+                        ->orWhereHas('tags', function ($tagQuery) use ($keyword) {
+                            $tagQuery->where('name', 'like', "%{$keyword}%");
+                        })
+                        // Search in category
+                        ->orWhereHas('category', function ($catQuery) use ($keyword) {
+                            $catQuery->where('name', 'like', "%{$keyword}%");
+                        })
+                        // Search in software details
+                        ->orWhereHas('softwareDetail', function ($softQuery) use ($keyword) {
+                            $softQuery->where('version', 'like', "%{$keyword}%")
+                                ->orWhere('developer', 'like', "%{$keyword}%")
+                                ->orWhere('os_requirements', 'like', "%{$keyword}%");
+                        });
+                });
+            }
+        })->orderByRaw(
+            // Order by relevance: title matches first, then excerpt, then content
+            "CASE 
+                WHEN LOWER(title) LIKE LOWER(?) THEN 1 
+                WHEN LOWER(title) LIKE LOWER(?) THEN 2
+                WHEN LOWER(excerpt) LIKE LOWER(?) THEN 3
+                WHEN LOWER(meta_keywords) LIKE LOWER(?) THEN 4
+                ELSE 5 
+            END",
+            [
+                "%{$term}%",  // Exact phrase in title
+                "%" . str_replace(' ', '%', $term) . "%",  // All words in title
+                "%{$term}%",  // Exact phrase in excerpt
+                "%{$term}%"   // Exact phrase in meta keywords
+            ]
+        );
     }
 
     /**
@@ -297,6 +340,30 @@ class Post extends Model
     public function scopeStatus($query, string $status)
     {
         return $query->where('status', $status);
+    }
+
+    /**
+     * Scope a query to software posts.
+     */
+    public function scopeSoftware($query)
+    {
+        return $query->ofType('software');
+    }
+
+    /**
+     * Scope a query to mobile apps posts.
+     */
+    public function scopeMobileApps($query)
+    {
+        return $query->ofType('mobile-apps');
+    }
+
+    /**
+     * Scope a query to tutorials posts.
+     */
+    public function scopeTutorials($query)
+    {
+        return $query->ofType('tutorials');
     }
 
     /*
