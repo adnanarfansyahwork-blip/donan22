@@ -14,6 +14,11 @@
 </div>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {{-- Ad Banner --}}
+    <div class="mb-6">
+        @include('components.ads.banner-468x60')
+    </div>
+    
     <div class="flex flex-col lg:flex-row gap-8">
         {{-- Posts List (Left Side - 65%) --}}
         <main class="lg:w-[65%]">

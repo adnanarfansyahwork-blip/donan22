@@ -35,6 +35,11 @@
     </div>
 </section>
 
+<!-- Ad Banner -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    @include('components.ads.banner-468x60')
+</div>
+
 <!-- Featured Posts -->
 @if($featuredPosts->count())
 <section class="py-12 bg-white">

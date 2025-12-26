@@ -323,11 +323,21 @@
 
                 </div>
 
+                <!-- Ad Banner Before Content -->
+                <div class="mb-6">
+                    @include('components.ads.banner-468x60')
+                </div>
+
                 <!-- Content -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 mb-6 shadow-sm">
                     <div class="post-content">
                         {!! $post->content !!}
                     </div>
+                </div>
+
+                <!-- Ad Banner After Content -->
+                <div class="mb-6">
+                    @include('components.ads.banner-468x60')
                 </div>
 
                 <!-- Tags -->

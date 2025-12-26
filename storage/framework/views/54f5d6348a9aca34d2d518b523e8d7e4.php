@@ -35,6 +35,11 @@
     </div>
 </section>
 
+<!-- Ad Banner -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <?php echo $__env->make('components.ads.banner-468x60', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+</div>
+
 <!-- Featured Posts -->
 <?php if($featuredPosts->count()): ?>
 <section class="py-12 bg-white">
@@ -178,37 +183,6 @@
         </div>
     </div>
 </section>
-
-<!-- Categories -->
-<?php if($categories->count()): ?>
-<section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-2xl font-bold text-gray-900">
-                <i class="bi bi-grid text-primary-600 mr-2"></i> Browse Categories
-            </h2>
-            <a href="<?php echo e(route('categories.index')); ?>" class="text-primary-600 hover:text-primary-700 font-medium">
-                View All <i class="bi bi-arrow-right"></i>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            <?php $__currentLoopData = $categories->take(12); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <a href="<?php echo e(route('categories.show', $category->slug)); ?>"
-                   class="bg-white rounded-xl p-4 text-center hover:shadow-lg transition-shadow border border-gray-200 group">
-                    <?php if($category->icon): ?>
-                        <i class="bi <?php echo e($category->icon); ?> text-3xl text-primary-600 mb-2 group-hover:scale-110 transition-transform inline-block"></i>
-                    <?php else: ?>
-                        <i class="bi bi-folder text-3xl text-primary-600 mb-2 group-hover:scale-110 transition-transform inline-block"></i>
-                    <?php endif; ?>
-                    <h3 class="font-medium text-gray-900 text-sm"><?php echo e($category->name); ?></h3>
-                    <span class="text-xs text-gray-500"><?php echo e($category->posts_count); ?> posts</span>
-                </a>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </div>
-    </div>
-</section>
-<?php endif; ?>
 
 <!-- CTA Section -->
 <section class="py-16 bg-gradient-to-r from-primary-600 to-primary-800 text-white">

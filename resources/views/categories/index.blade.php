@@ -13,6 +13,11 @@
 </div>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {{-- Ad Banner --}}
+    <div class="mb-8">
+        @include('components.ads.banner-468x60')
+    </div>
+    
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         @foreach($categories as $category)
             <a href="{{ route('categories.show', $category->slug) }}" 

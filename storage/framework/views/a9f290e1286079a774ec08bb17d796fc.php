@@ -16,9 +16,13 @@
                    class="flex items-center gap-3 py-2 group">
                     
                     <?php if($category->image): ?>
-                        <img src="<?php echo e(asset('storage/' . $category->image)); ?>" 
+                        <img src="<?php echo e(asset('uploads/categories/' . $category->image)); ?>" 
                              alt="<?php echo e($category->name); ?>" 
-                             class="w-7 h-7 object-contain flex-shrink-0">
+                             class="w-7 h-7 object-contain flex-shrink-0"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <span class="w-7 h-7 items-center justify-center text-lg flex-shrink-0 text-gray-400" style="display: none;">
+                            <i class="bi bi-folder"></i>
+                        </span>
                     <?php elseif($category->icon): ?>
                         <span class="w-7 h-7 flex items-center justify-center text-lg flex-shrink-0 text-blue-500">
                             <i class="bi <?php echo e($category->icon); ?>"></i>
