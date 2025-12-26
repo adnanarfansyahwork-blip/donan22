@@ -639,7 +639,4 @@ class Post extends Model
             self::STATUS_SCHEDULED => 'Scheduled',
         ];
     }
-
 }
-
-
