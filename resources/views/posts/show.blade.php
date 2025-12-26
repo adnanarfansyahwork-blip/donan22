@@ -730,27 +730,15 @@
     }
     
     function init() {
-        // console.log('[Popunder] Initializing...');
-        
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         
         if (!downloadLinks.length) {
-            // console.log('[Popunder] No download links found');
             return;
         }
-        
-        // console.log('[Popunder] Found ' + downloadLinks.length + ' download link(s)');
         
         downloadLinks.forEach(function(link, idx) {
             setupLink(link, idx);
         });
-        
-        // Debug - disabled
-        // setTimeout(function() {
-        //     const hasScript = !!document.querySelector('script[src*="demolitionnutsgrease"]');
-        //     console.log('[Popunder] External script: ' + (hasScript ? 'Loaded ✓' : 'Missing ✗'));
-        //     console.log('[Popunder] Ready! Click download button ' + REQUIRED_CLICKS + 'x');
-        // }, 1500);
     }
     
     function setupLink(link, idx) {
@@ -776,15 +764,8 @@
             let clicks = parseInt(localStorage.getItem(storageKey) || '0');
             clicks++;
             
-            console.log('[Popunder] Click ' + clicks + '/' + REQUIRED_CLICKS);
-            
             if (clicks < REQUIRED_CLICKS) {
-                // Still need more clicks
-                // CRITICAL: For popunder to work, we CANNOT prevent default on user click
-                // Instead, we remove the href so click does nothing but popunder can trigger
-                
                 if (clicks === 1) {
-                    // First click - store original href and remove it
                     link.dataset.targetHref = originalHref;
                     link.removeAttribute('href');
                     link.style.cursor = 'pointer';
@@ -793,20 +774,12 @@
                 localStorage.setItem(storageKey, clicks.toString());
                 updateText(textEl, REQUIRED_CLICKS - clicks);
                 
-                // Visual pulse
                 link.classList.add('popunder-active');
                 setTimeout(function() {
                     link.classList.remove('popunder-active');
                 }, 800);
                 
-                console.log('[Popunder] ' + (REQUIRED_CLICKS - clicks) + ' more click(s) needed');
-                
-                // Don't prevent default - let popunder script detect the click!
-                // Navigation won't happen anyway since href is removed
-                
             } else {
-                // Final click - redirect to download
-                console.log('[Popunder] Redirecting to download...');
                 localStorage.removeItem(storageKey);
                 
                 if (textEl) {
