@@ -747,17 +747,16 @@
         const storageKey = 'dl_' + postSlug + '_' + linkId;
         const originalHref = link.getAttribute('href');
         
+        // Store original href as data attribute (keep href intact for popunder!)
+        link.dataset.targetHref = originalHref;
+        
         const textEl = link.querySelector('.download-text');
         const originalText = textEl ? textEl.innerText.trim() : 'Download';
         
-        // Restore previous state
+        // Restore previous state (but DON'T remove href - popunder needs it!)
         const saved = parseInt(localStorage.getItem(storageKey) || '0');
         if (saved > 0 && saved < REQUIRED_CLICKS) {
             updateText(textEl, REQUIRED_CLICKS - saved);
-            // Remove href temporarily to prevent navigation
-            link.removeAttribute('href');
-            link.style.cursor = 'pointer';
-            link.dataset.targetHref = originalHref;
         }
         
         link.addEventListener('click', function(e) {
@@ -765,11 +764,9 @@
             clicks++;
             
             if (clicks < REQUIRED_CLICKS) {
-                if (clicks === 1) {
-                    link.dataset.targetHref = originalHref;
-                    link.removeAttribute('href');
-                    link.style.cursor = 'pointer';
-                }
+                // IMPORTANT: Prevent navigation but let popunder script detect the click
+                // Popunder scripts work by detecting clicks on <a> elements with href
+                e.preventDefault();
                 
                 localStorage.setItem(storageKey, clicks.toString());
                 updateText(textEl, REQUIRED_CLICKS - clicks);
@@ -780,20 +777,15 @@
                 }, 800);
                 
             } else {
+                // On final click, allow navigation (popunder will also trigger)
                 localStorage.removeItem(storageKey);
                 
                 if (textEl) {
                     textEl.innerText = 'Opening...';
                 }
                 
-                // Get stored href and navigate
-                const targetHref = link.dataset.targetHref || originalHref;
-                if (targetHref) {
-                    // Small delay for visual feedback
-                    setTimeout(function() {
-                        window.location.href = targetHref;
-                    }, 100);
-                }
+                // Let the click proceed naturally to the href
+                // Popunder will open in background, user goes to download page
             }
         }, false);
     }
