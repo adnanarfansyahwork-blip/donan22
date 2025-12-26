@@ -489,7 +489,7 @@
             <aside class="lg:col-span-1 space-y-5">
                 
                 <!-- Download Card - Priority -->
-                <div id="download-card" class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm lg:sticky lg:top-4">
+                <div id="download-card" class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                     <div class="px-4 py-3 bg-gradient-to-r from-green-600 to-green-500">
                         <h3 class="font-bold text-white flex items-center">
                             <i class="bi bi-download mr-2"></i>Download
