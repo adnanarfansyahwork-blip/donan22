@@ -42,8 +42,8 @@
             
             {{-- Excerpt - Hidden on mobile --}}
             @if($post->excerpt)
-                <p class="hidden xs:block text-xs text-gray-500 line-clamp-3 leading-relaxed">
-                    {{ Str::limit($post->excerpt, 200) }}
+                <p class="hidden xs:block text-xs text-gray-500 leading-relaxed">
+                    {{ $post->excerpt }}
                 </p>
             @endif
         </div>

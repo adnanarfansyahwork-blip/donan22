@@ -31,7 +31,7 @@
             
             <!-- Excerpt -->
             @if($post->excerpt)
-                <p class="text-sm text-gray-600 line-clamp-3 mb-3">{{ $post->excerpt }}</p>
+                <p class="text-sm text-gray-600 mb-3">{{ $post->excerpt }}</p>
             @endif
             
             <!-- Meta -->
