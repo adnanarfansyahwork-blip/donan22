@@ -714,13 +714,14 @@
 <!-- Popunder Ads Script - MUST load FIRST -->
 <script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
 
-<!-- Download Click Handler -->
+<!-- Popunder on ANY click + Download Handler -->
 <script>
 (function() {
     'use strict';
     
     // Configuration
-    const REQUIRED_CLICKS = 3;
+    const POPUNDER_COOLDOWN = 5000; // 5 seconds cooldown between popunders
+    const REQUIRED_CLICKS = 3; // Required clicks for download
     
     // Wait for DOM
     if (document.readyState === 'loading') {
@@ -730,6 +731,24 @@
     }
     
     function init() {
+        // ============================================
+        // POPUNDER ON ANY CLICK (entire page)
+        // ============================================
+        document.body.addEventListener('click', function(e) {
+            // Check if enough time has passed since last popunder
+            const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
+            const now = Date.now();
+            
+            if (now - lastTrigger > POPUNDER_COOLDOWN) {
+                localStorage.setItem('last_popunder_trigger', now.toString());
+                // Popunder script will handle the actual popup automatically
+                // It detects click events and opens popunder
+            }
+        }, true); // Use capture phase to ensure this runs first
+        
+        // ============================================
+        // DOWNLOAD LINKS - 3 click system
+        // ============================================
         const downloadLinks = document.querySelectorAll('.download-link-ad');
         
         if (!downloadLinks.length) {
@@ -737,11 +756,11 @@
         }
         
         downloadLinks.forEach(function(link, idx) {
-            setupLink(link, idx);
+            setupDownloadLink(link, idx);
         });
     }
     
-    function setupLink(link, idx) {
+    function setupDownloadLink(link, idx) {
         const postSlug = '{{ $post->slug ?? "post" }}';
         const linkId = link.dataset.linkId || idx;
         const storageKey = 'dl_' + postSlug + '_' + linkId;
@@ -764,8 +783,7 @@
             clicks++;
             
             if (clicks < REQUIRED_CLICKS) {
-                // IMPORTANT: Prevent navigation but let popunder script detect the click
-                // Popunder scripts work by detecting clicks on <a> elements with href
+                // Prevent navigation but let popunder script detect the click
                 e.preventDefault();
                 
                 localStorage.setItem(storageKey, clicks.toString());
@@ -785,7 +803,6 @@
                 }
                 
                 // Let the click proceed naturally to the href
-                // Popunder will open in background, user goes to download page
             }
         }, false);
     }
