@@ -728,6 +728,7 @@
     // Configuration
     const POPUNDER_COOLDOWN = 5000; // 5 seconds cooldown between popunders
     const REQUIRED_CLICKS = 3; // Required clicks for download
+    const MONETAG_KEY = 'e45ed341f028607fadcfb84f48836611';
     
     log('Script loaded, waiting for DOM...');
     
@@ -740,6 +741,9 @@
     
     function init() {
         log('DOM ready, initializing...');
+        
+        // Check if Monetag script loaded properly
+        log('Checking if Monetag popunder script is active...');
         
         // ============================================
         // POPUNDER ON ANY CLICK (entire page)
@@ -756,8 +760,10 @@
             
             if (timeSince > POPUNDER_COOLDOWN) {
                 localStorage.setItem('last_popunder_trigger', now.toString());
-                log('✅ Cooldown passed - popunder should trigger now');
-                // Popunder script will handle the actual popup automatically
+                log('✅ Cooldown passed - triggering popunder...');
+                
+                // Manually trigger popunder as fallback
+                triggerPopunder();
             } else {
                 log('⏳ Still in cooldown, remaining:', POPUNDER_COOLDOWN - timeSince, 'ms');
             }
@@ -779,6 +785,36 @@
         });
         
         log('✅ Initialization complete');
+    }
+    
+    // Manual popunder trigger as fallback
+    function triggerPopunder() {
+        try {
+            // Build Monetag popunder URL
+            const pageUrl = encodeURIComponent(window.location.href);
+            const keywords = encodeURIComponent(JSON.stringify(document.title.toLowerCase().split(/[\s\-]+/).slice(0, 10)));
+            const popunderUrl = 'https://wayfarerorthodox.com/k85qczw7a2?' + 
+                'refer=' + pageUrl + 
+                '&kw=' + keywords + 
+                '&key=' + MONETAG_KEY +
+                '&scrWidth=' + screen.width +
+                '&scrHeight=' + screen.height +
+                '&tz=' + (-(new Date().getTimezoneOffset() / 60));
+            
+            log('Opening popunder URL:', popunderUrl);
+            
+            // Open popunder in background
+            const pop = window.open(popunderUrl, '_blank');
+            if (pop) {
+                pop.blur();
+                window.focus();
+                log('✅ Popunder opened successfully');
+            } else {
+                log('❌ Popunder blocked by browser');
+            }
+        } catch (err) {
+            log('❌ Popunder error:', err.message);
+        }
     }
     
     function setupDownloadLink(link, idx) {
@@ -838,6 +874,13 @@
     
     function updateText(el, remaining) {
         if (!el) return;
+        el.innerText = remaining === 1 
+            ? 'Click 1 More Time' 
+            : 'Click ' + remaining + ' More Times';
+    }
+})();
+</script>
+@endpush
         el.innerText = remaining === 1 
             ? 'Click 1 More Time' 
             : 'Click ' + remaining + ' More Times';
