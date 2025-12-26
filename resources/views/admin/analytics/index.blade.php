@@ -118,10 +118,14 @@
         @if($dailyViews->count() > 0)
         <div class="space-y-2">
             @foreach($dailyViews as $day)
+            @php
+                $maxViews = $dailyViews->max('views') ?: 1;
+                $percentage = min(100, ($day->views / $maxViews) * 100);
+            @endphp
             <div class="flex items-center gap-4">
                 <span class="w-24 text-sm text-gray-500">{{ \Carbon\Carbon::parse($day->date)->format('M d') }}</span>
                 <div class="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                    <div class="bg-blue-500 h-4 rounded-full" style="width: {{ min(100, ($day->views / max(1, $dailyViews->max('views'))) * 100) }}%"></div>
+                    <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $percentage }}%"></div>
                 </div>
                 <span class="w-16 text-sm text-gray-900 text-right">{{ number_format($day->views) }}</span>
             </div>
