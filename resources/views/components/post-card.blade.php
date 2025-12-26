@@ -26,7 +26,7 @@
             </div>
             
             <!-- Title -->
-            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors flex-shrink-0 min-h-[2.5rem]">
+            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-3 group-hover:text-primary-600 transition-colors flex-shrink-0 min-h-[3.5rem]">
                 {{ $post->title }}
             </h3>
             

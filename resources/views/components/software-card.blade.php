@@ -11,7 +11,7 @@
             
             <!-- Content -->
             <div class="flex-1 min-w-0">
-                <h3 class="font-semibold text-gray-900 mb-1 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-primary-600 transition-colors">
                     {{ $post->title }}
                 </h3>
                 
