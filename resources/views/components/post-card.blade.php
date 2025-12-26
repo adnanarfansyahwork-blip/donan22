@@ -1,10 +1,10 @@
 <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group h-full flex flex-col">
     <a href="{{ $post->url }}" class="block flex flex-col h-full">
         <!-- Image -->
-        <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden relative flex-shrink-0">
+        <div class="aspect-[4/3] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative flex-shrink-0 flex items-center justify-center">
             <img src="{{ $post->featured_image_url }}" 
                  alt="{{ $post->featured_image_alt ?? $post->title }}" 
-                 class="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300 p-2" 
+                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300" 
                  loading="lazy"
                  onerror="this.style.display='none'">
         </div>
@@ -26,22 +26,14 @@
             </div>
             
             <!-- Title -->
-            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors flex-shrink-0">
+            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors flex-shrink-0 min-h-[2.5rem]">
                 {{ $post->title }}
             </h3>
             
             <!-- Excerpt -->
-            @if($post->excerpt)
-                <p class="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
-                    @if(isset($excerpt_limit))
-                        {{ Str::limit($post->excerpt, $excerpt_limit) }}
-                    @else
-                        {{ Str::limit($post->excerpt, 100) }}
-                    @endif
-                </p>
-            @else
-                <div class="flex-grow"></div>
-            @endif
+            <p class="text-sm text-gray-600 mb-3 line-clamp-2 h-10 overflow-hidden">
+                {{ Str::limit($post->excerpt ?? '', 80) }}
+            </p>
             
             <!-- Meta -->
             <div class="flex items-center justify-between text-xs text-gray-500 mt-auto flex-shrink-0">
