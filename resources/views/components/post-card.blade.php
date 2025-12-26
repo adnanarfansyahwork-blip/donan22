@@ -1,10 +1,10 @@
 <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group">
     <a href="{{ $post->url }}" class="block">
         <!-- Image -->
-        <div class="aspect-video bg-gray-100 overflow-hidden">
+        <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
             <img src="{{ $post->featured_image_url }}" 
                  alt="{{ $post->featured_image_alt ?? $post->title }}" 
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300" 
                  loading="lazy">
         </div>
         
