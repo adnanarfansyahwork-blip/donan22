@@ -99,8 +99,8 @@
                                 {{ Str::limit($post->title, 60) }}
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-right text-sm text-gray-900">{{ number_format($post->views) }}</td>
-                        <td class="px-6 py-4 text-right text-sm text-gray-900">{{ number_format($post->downloads) }}</td>
+                        <td class="px-6 py-4 text-right text-sm text-gray-900">{{ number_format($post->views_count) }}</td>
+                        <td class="px-6 py-4 text-right text-sm text-gray-900">{{ number_format($post->downloads_count) }}</td>
                     </tr>
                     @empty
                     <tr>

@@ -23,15 +23,15 @@ class AnalyticsController extends Controller
             ->get();
 
         // Get top posts
-        $topPosts = Post::select('id', 'title', 'views', 'downloads')
-            ->orderByDesc('views')
+        $topPosts = Post::select('id', 'title', 'views_count', 'downloads_count')
+            ->orderByDesc('views_count')
             ->take(10)
             ->get();
 
         // Get traffic summary
         $stats = [
-            'total_views' => Post::sum('views'),
-            'total_downloads' => Post::sum('downloads'),
+            'total_views' => Post::sum('views_count'),
+            'total_downloads' => Post::sum('downloads_count'),
             'today_views' => PageView::whereDate('created_at', today())->count(),
             'this_week_views' => PageView::where('created_at', '>=', now()->startOfWeek())->count(),
             'this_month_views' => PageView::where('created_at', '>=', now()->startOfMonth())->count(),
@@ -42,8 +42,8 @@ class AnalyticsController extends Controller
 
     public function export()
     {
-        $posts = Post::select('title', 'slug', 'views', 'downloads', 'created_at', 'published_at')
-            ->orderByDesc('views')
+        $posts = Post::select('title', 'slug', 'views_count', 'downloads_count', 'created_at', 'published_at')
+            ->orderByDesc('views_count')
             ->get();
 
         $filename = 'analytics_export_' . date('Y-m-d') . '.csv';
@@ -61,8 +61,8 @@ class AnalyticsController extends Controller
                 fputcsv($file, [
                     $post->title,
                     $post->slug,
-                    $post->views,
-                    $post->downloads,
+                    $post->views_count,
+                    $post->downloads_count,
                     $post->created_at,
                     $post->published_at,
                 ]);
