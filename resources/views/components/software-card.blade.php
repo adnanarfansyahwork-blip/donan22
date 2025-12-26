@@ -2,7 +2,7 @@
     <a href="{{ $post->url }}" class="block p-4">
         <div class="flex gap-4">
             <!-- Icon/Image -->
-            <div class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
+            <div class="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
                 <img src="{{ $post->featured_image_url }}" 
                      alt="{{ $post->title }}" 
                      class="w-full h-full object-cover" 
