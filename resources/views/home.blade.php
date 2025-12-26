@@ -120,19 +120,59 @@
 </section>
 @endif
 
-<!-- Latest Posts -->
-<section class="py-12 bg-white">
+<!-- Latest Posts with Category Sidebar -->
+<section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold text-gray-900">
-                <i class="bi bi-clock text-gray-600 mr-2"></i> Latest Updates
+                <i class="bi bi-clock text-emerald-500 mr-2"></i> Latest Updates
             </h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            @foreach($latestPosts as $post)
-                @include('components.post-card', ['post' => $post])
-            @endforeach
+        <div class="flex flex-col lg:flex-row gap-8">
+            {{-- Posts List (Left Side - 65%) --}}
+            <div class="lg:w-[65%] space-y-4">
+                @foreach($latestPosts as $post)
+                    @include('components.post-card-horizontal', ['post' => $post])
+                @endforeach
+            </div>
+            
+            {{-- Category Sidebar (Right Side - 35%) --}}
+            <div class="lg:w-[35%]">
+                <div class="sticky top-24 space-y-6">
+                    @include('components.category-sidebar', [
+                        'categories' => $categories, 
+                        'title' => 'Kategori Software',
+                        'showViewAll' => true
+                    ])
+                    
+                    {{-- Popular Posts Widget --}}
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 px-5 py-3">
+                            <h3 class="text-white font-bold text-center">
+                                <i class="bi bi-fire mr-2"></i>Tulisan Populer
+                            </h3>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            @foreach($featuredPosts->take(5) as $index => $popularPost)
+                                <a href="{{ $popularPost->url }}" 
+                                   class="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors group">
+                                    <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold
+                                        {{ $index === 0 ? 'bg-red-500 text-white' : ($index === 1 ? 'bg-orange-500 text-white' : ($index === 2 ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-gray-600')) }}">
+                                        {{ $index + 1 }}
+                                    </span>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-sm font-medium text-gray-800 line-clamp-2 group-hover:text-emerald-600 transition-colors leading-snug">
+                                            {{ $popularPost->title }}
+                                        </h4>
+                                        <span class="text-xs text-gray-400">{{ number_format($popularPost->views_count) }} views</span>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
