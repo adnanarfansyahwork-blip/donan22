@@ -120,19 +120,61 @@
 </section>
 <?php endif; ?>
 
-<!-- Latest Posts -->
-<section class="py-12 bg-white">
+<!-- Latest Posts with Category Sidebar -->
+<section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold text-gray-900">
-                <i class="bi bi-clock text-gray-600 mr-2"></i> Latest Updates
+                <i class="bi bi-clock text-emerald-500 mr-2"></i> Latest Updates
             </h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php $__currentLoopData = $latestPosts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php echo $__env->make('components.post-card', ['post' => $post], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <div class="lg:w-[65%] space-y-4">
+                <?php $__currentLoopData = $latestPosts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php echo $__env->make('components.post-card-horizontal', ['post' => $post], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+            
+            
+            <div class="lg:w-[35%]">
+                <div class="sticky top-24 space-y-6">
+                    <?php echo $__env->make('components.category-sidebar', [
+                        'categories' => $categories, 
+                        'title' => 'Kategori Software',
+                        'showViewAll' => true
+                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+                    
+                    
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 px-5 py-3">
+                            <h3 class="text-white font-bold text-center">
+                                <i class="bi bi-fire mr-2"></i>Tulisan Populer
+                            </h3>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <?php $__currentLoopData = $featuredPosts->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $popularPost): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <a href="<?php echo e($popularPost->url); ?>" 
+                                   class="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors group">
+                                    <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold
+                                        <?php echo e($index === 0 ? 'bg-red-500 text-white' : ($index === 1 ? 'bg-orange-500 text-white' : ($index === 2 ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-gray-600'))); ?>">
+                                        <?php echo e($index + 1); ?>
+
+                                    </span>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-sm font-medium text-gray-800 line-clamp-2 group-hover:text-emerald-600 transition-colors leading-snug">
+                                            <?php echo e($popularPost->title); ?>
+
+                                        </h4>
+                                        <span class="text-xs text-gray-400"><?php echo e(number_format($popularPost->views_count)); ?> views</span>
+                                    </div>
+                                </a>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
