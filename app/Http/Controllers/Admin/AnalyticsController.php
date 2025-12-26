@@ -12,12 +12,13 @@ class AnalyticsController extends Controller
 {
     public function index()
     {
-        // Get daily views for last 30 days
-        $dailyViews = PageView::select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('COUNT(*) as views')
+        // Get daily views for last 30 days (using posts published date as reference)
+        $dailyViews = Post::select(
+                DB::raw('DATE(published_at) as date'),
+                DB::raw('SUM(views_count) as views')
             )
-            ->where('created_at', '>=', now()->subDays(30))
+            ->whereNotNull('published_at')
+            ->where('published_at', '>=', now()->subDays(30))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
@@ -32,9 +33,10 @@ class AnalyticsController extends Controller
         $stats = [
             'total_views' => Post::sum('views_count'),
             'total_downloads' => Post::sum('downloads_count'),
-            'today_views' => PageView::whereDate('created_at', today())->count(),
-            'this_week_views' => PageView::where('created_at', '>=', now()->startOfWeek())->count(),
-            'this_month_views' => PageView::where('created_at', '>=', now()->startOfMonth())->count(),
+            'today_views' => Post::whereDate('published_at', today())->sum('views_count'),
+            'this_month_views' => Post::whereYear('published_at', now()->year)
+                ->whereMonth('published_at', now()->month)
+                ->sum('views_count'),
         ];
 
         return view('admin.analytics.index', compact('dailyViews', 'topPosts', 'stats'));
