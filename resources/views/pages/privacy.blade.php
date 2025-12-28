@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Privacy Policy - Donan22')
+@section('meta_description', 'Donan22 Privacy Policy - Learn how we collect, use, and protect your information.')
+@section('canonical', route('privacy'))
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

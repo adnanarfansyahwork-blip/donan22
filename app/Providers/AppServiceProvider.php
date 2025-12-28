@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Observers\PostObserver;
 use App\Observers\CategoryObserver;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS in production
+        if (config('app.env') === 'production' || env('FORCE_HTTPS', false)) {
+            URL::forceScheme('https');
+        }
+
         // Register observers for auto-regenerating sitemap
         Post::observe(PostObserver::class);
         Category::observe(CategoryObserver::class);

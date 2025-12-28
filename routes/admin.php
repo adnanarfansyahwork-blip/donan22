@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\SitemapController;
 use App\Http\Controllers\Admin\PostTypeController;
 use App\Http\Controllers\Admin\UploadController;
+use App\Http\Controllers\Admin\SubscriberController;
 
 // Guest routes (login) - No auth required
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -71,4 +72,13 @@ Route::middleware('admin.auth')->group(function () {
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+    // Subscribers
+    Route::get('/subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
+    Route::get('/subscribers/broadcast', [SubscriberController::class, 'broadcast'])->name('subscribers.broadcast');
+    Route::post('/subscribers/broadcast', [SubscriberController::class, 'sendBroadcast'])->name('subscribers.broadcast.send');
+    Route::get('/subscribers/export', [SubscriberController::class, 'export'])->name('subscribers.export');
+    Route::delete('/subscribers/bulk-delete', [SubscriberController::class, 'bulkDelete'])->name('subscribers.bulk-delete');
+    Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
+    Route::patch('/subscribers/{subscriber}/toggle-status', [SubscriberController::class, 'toggleStatus'])->name('subscribers.toggle-status');
 });

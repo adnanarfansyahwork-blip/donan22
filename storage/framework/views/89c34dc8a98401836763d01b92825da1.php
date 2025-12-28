@@ -2,7 +2,7 @@
     <a href="<?php echo e($post->url); ?>" class="block p-4">
         <div class="flex gap-4">
             <!-- Icon/Image -->
-            <div class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
+            <div class="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
                 <img src="<?php echo e($post->featured_image_url); ?>" 
                      alt="<?php echo e($post->title); ?>" 
                      class="w-full h-full object-cover" 
@@ -10,8 +10,8 @@
             </div>
             
             <!-- Content -->
-            <div class="flex-1 min-w-0">
-                <h3 class="font-semibold text-gray-900 mb-1 line-clamp-1 group-hover:text-primary-600 transition-colors">
+            <div class="flex-1">
+                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-primary-600 transition-colors leading-tight">
                     <?php echo e($post->title); ?>
 
                 </h3>

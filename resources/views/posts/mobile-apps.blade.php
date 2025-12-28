@@ -2,6 +2,8 @@
 
 @section('title', 'Mobile Apps - Donan22')
 @section('meta_description', 'Download mobile apps for Android and iOS devices.')
+@section('canonical', route('mobile-apps.index'))
+@section('robots', request()->has('page') || request()->has('platform') ? 'noindex, follow' : 'index, follow')
 
 @section('content')
 <div class="bg-gradient-to-r from-green-600 to-green-800 text-white py-12">

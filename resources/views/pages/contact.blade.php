@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Contact Us - Donan22')
+@section('meta_description', 'Contact Donan22 - Have questions? We\'d love to hear from you.')
+@section('canonical', route('contact'))
 
 @section('content')
 <div class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">

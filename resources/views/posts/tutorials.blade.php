@@ -2,6 +2,8 @@
 
 @section('title', 'Tutorials - Donan22')
 @section('meta_description', 'Learn IT and programming with our comprehensive tutorials.')
+@section('canonical', route('tutorials.index'))
+@section('robots', request()->has('page') || request()->has('category') ? 'noindex, follow' : 'index, follow')
 
 @section('content')
 <div class="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-12">

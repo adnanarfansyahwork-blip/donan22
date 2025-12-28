@@ -17,6 +17,9 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="@yield('canonical', url()->current())">
     
+    <!-- Pagination SEO Links -->
+    @stack('seo_pagination')
+    
     <!-- Open Graph -->
     <meta property="og:title" content="@yield('og_title', config('app.name'))">
     <meta property="og:description" content="@yield('og_description', 'Download software, mobile apps, and IT tutorials')">

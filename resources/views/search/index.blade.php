@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', ($query ? "Search: $query" : 'Search') . ' - Donan22')
+@section('robots', 'noindex, follow')
 
 @section('content')
 <div class="bg-gray-100 py-8">

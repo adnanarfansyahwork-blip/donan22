@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <title>404 - Page Not Found</title>
     @if (file_exists(public_path('build/manifest.json')))
         @vite(['resources/css/app.css'])

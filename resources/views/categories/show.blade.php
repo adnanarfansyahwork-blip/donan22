@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', $category->meta_title ?? $category->name . ' - Donan22')
-@section('meta_description', $category->meta_description ?? $category->description)
+@section('meta_description', $category->meta_description ?? $category->description ?? 'Browse ' . $category->name . ' - Download software, apps and tutorials.')
+@section('canonical', route('categories.show', $category->slug))
+@section('robots', request()->has('page') ? 'noindex, follow' : 'index, follow')
 
 @section('content')
 <div class="bg-gradient-to-r from-gray-700 to-gray-900 text-white py-12">

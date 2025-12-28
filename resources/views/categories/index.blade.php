@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Categories - Donan22')
+@section('meta_description', 'Browse all categories to find software, apps, and tutorials.')
+@section('canonical', route('categories.index'))
+@section('robots', request()->has('page') ? 'noindex, follow' : 'index, follow')
 
 @section('content')
 <div class="bg-gradient-to-r from-gray-700 to-gray-900 text-white py-12">

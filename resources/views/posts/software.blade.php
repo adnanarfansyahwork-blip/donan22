@@ -2,6 +2,8 @@
 
 @section('title', 'Software Downloads - Donan22')
 @section('meta_description', 'Download free and premium software for Windows, macOS, and Linux.')
+@section('canonical', route('software.index'))
+@section('robots', request()->has('page') || request()->has('sort') || request()->has('category') ? 'noindex, follow' : 'index, follow')
 
 @section('content')
 <div class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">

@@ -2,6 +2,7 @@
 
 @section('title', 'Donan22 - IT & Software Learning Hub')
 @section('meta_description', 'Download software PC, mobile apps Android & iOS, and learn IT tutorials. Your trusted source for technology.')
+@section('canonical', route('home'))
 
 @section('content')
 <!-- Hero Section - Mobile Optimized -->
@@ -187,13 +188,97 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
         <p class="text-primary-100 mb-8">Get notified about new software releases, tutorials, and updates.</p>
-        <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-            <input type="email" placeholder="Enter your email"
-                   class="flex-1 px-6 py-3 rounded-lg text-gray-900 focus:ring-4 focus:ring-primary-300">
-            <button type="submit" class="px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
-                Subscribe
+        
+        <!-- Success Message -->
+        <div id="subscribe-success" class="hidden mb-6 p-4 bg-green-500/20 border border-green-400 rounded-lg text-green-100">
+            <div class="flex items-center justify-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span id="subscribe-success-message"></span>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="subscribe-error" class="hidden mb-6 p-4 bg-red-500/20 border border-red-400 rounded-lg text-red-100">
+            <div class="flex items-center justify-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span id="subscribe-error-message"></span>
+            </div>
+        </div>
+
+        <form id="subscribe-form" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+            @csrf
+            <input type="email" name="email" id="subscribe-email" placeholder="Enter your email" required
+                   class="flex-1 px-6 py-3 rounded-lg text-gray-900 focus:ring-4 focus:ring-primary-300 focus:outline-none">
+            <button type="submit" id="subscribe-btn" class="px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                <span id="subscribe-btn-text">Subscribe</span>
+                <svg id="subscribe-loading" class="hidden w-5 h-5 ml-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
             </button>
         </form>
     </div>
 </section>
+
+@push('scripts')
+<script>
+document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const email = document.getElementById('subscribe-email').value;
+    const btn = document.getElementById('subscribe-btn');
+    const btnText = document.getElementById('subscribe-btn-text');
+    const loading = document.getElementById('subscribe-loading');
+    const successDiv = document.getElementById('subscribe-success');
+    const errorDiv = document.getElementById('subscribe-error');
+    const successMsg = document.getElementById('subscribe-success-message');
+    const errorMsg = document.getElementById('subscribe-error-message');
+    
+    // Reset messages
+    successDiv.classList.add('hidden');
+    errorDiv.classList.add('hidden');
+    
+    // Show loading
+    btn.disabled = true;
+    btnText.textContent = 'Subscribing...';
+    loading.classList.remove('hidden');
+    
+    try {
+        const response = await fetch('{{ route("subscriber.subscribe") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            successMsg.textContent = data.message;
+            successDiv.classList.remove('hidden');
+            form.reset();
+        } else {
+            errorMsg.textContent = data.message;
+            errorDiv.classList.remove('hidden');
+        }
+    } catch (error) {
+        errorMsg.textContent = 'Something went wrong. Please try again.';
+        errorDiv.classList.remove('hidden');
+    } finally {
+        // Reset button
+        btn.disabled = false;
+        btnText.textContent = 'Subscribe';
+        loading.classList.add('hidden');
+    }
+});
+</script>
+@endpush
 @endsection

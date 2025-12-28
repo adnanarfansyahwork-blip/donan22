@@ -19,17 +19,23 @@ class SitemapService
 
     public function generate(): bool
     {
+        // Force HTTPS URL scheme for production
+        $appUrl = config('app.url');
+        
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>');
 
         // Add homepage
-        $this->addUrl($xml, url('/'), now()->toW3cString(), 'daily', '1.0');
+        $this->addUrl($xml, $appUrl, now()->toW3cString(), 'daily', '1.0');
 
-        // Add posts
-        $posts = Post::published()->latest('published_at')->get();
+        // Add posts (only indexable posts)
+        $posts = Post::published()
+            ->where('is_indexable', true)
+            ->latest('published_at')
+            ->get();
         foreach ($posts as $post) {
             $this->addUrl(
                 $xml,
-                route('posts.show', $post->slug),
+                $appUrl . '/post/' . $post->slug,
                 $post->updated_at->toW3cString(),
                 'weekly',
                 '0.8'
@@ -41,18 +47,23 @@ class SitemapService
         foreach ($categories as $category) {
             $this->addUrl(
                 $xml,
-                route('categories.show', $category->slug),
+                $appUrl . '/category/' . $category->slug,
                 $category->updated_at->toW3cString(),
                 'weekly',
                 '0.6'
             );
         }
 
-        // Add static pages
+        // Add static pages (only important ones)
         $staticPages = [
-            ['url' => url('/about'), 'priority' => '0.5'],
-            ['url' => url('/contact'), 'priority' => '0.5'],
-            ['url' => url('/blog'), 'priority' => '0.7'],
+            ['url' => $appUrl . '/software', 'priority' => '0.7'],
+            ['url' => $appUrl . '/mobile-apps', 'priority' => '0.7'],
+            ['url' => $appUrl . '/tutorials', 'priority' => '0.7'],
+            ['url' => $appUrl . '/categories', 'priority' => '0.6'],
+            ['url' => $appUrl . '/about', 'priority' => '0.5'],
+            ['url' => $appUrl . '/contact', 'priority' => '0.5'],
+            ['url' => $appUrl . '/privacy-policy', 'priority' => '0.3'],
+            ['url' => $appUrl . '/terms-of-service', 'priority' => '0.3'],
         ];
 
         foreach ($staticPages as $page) {

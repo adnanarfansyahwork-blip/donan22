@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'About Us - Donan22')
+@section('meta_description', 'Learn more about Donan22 - Your trusted source for software, apps, and IT tutorials.')
+@section('canonical', route('about'))
 
 @section('content')
 <div class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">

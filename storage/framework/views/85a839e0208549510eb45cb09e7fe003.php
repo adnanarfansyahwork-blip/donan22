@@ -3,26 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="robots" content="noindex, nofollow">
-    <title>@yield('title', 'Admin') - Donan22</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo $__env->yieldContent('title', 'Admin'); ?> - Donan22</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('favicon.ico')); ?>">
+    <link rel="icon" type="image/png" href="<?php echo e(asset('favicon.png')); ?>">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    @if (file_exists(public_path('build/manifest.json')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
+    <?php if(file_exists(public_path('build/manifest.json'))): ?>
+        <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+    <?php else: ?>
         <link rel="stylesheet" href="/build/assets/app-DEg3F6-3.css">
         <script src="/build/assets/app-CAiCLEjY.js" defer></script>
-    @endif
+    <?php endif; ?>
 
-    @stack('styles')
+    <?php echo $__env->yieldPushContent('styles'); ?>
     <!-- Bootstrap CSS (required for Summernote) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Summernote CSS -->
@@ -51,8 +50,8 @@
         <aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="bg-gray-900 text-white transition-all duration-300 flex flex-col fixed h-full z-30">
             <!-- Logo -->
             <div class="h-16 flex items-center px-4 border-b border-gray-800">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Donan22" class="h-8 w-auto">
+                <a href="<?php echo e(route('admin.dashboard')); ?>" class="flex items-center space-x-3">
+                    <img src="<?php echo e(asset('assets/images/logo.png')); ?>" alt="Donan22" class="h-8 w-auto">
                     <span x-show="sidebarOpen" class="text-lg font-semibold">Admin Panel</span>
                 </a>
             </div>
@@ -60,37 +59,37 @@
             <!-- Navigation -->
             <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                 <!-- Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.dashboard*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.dashboard')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.dashboard*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-speedometer2 text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Dashboard</span>
                 </a>
 
                 <!-- Posts -->
-                <a href="{{ route('admin.posts.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.posts.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.posts.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.posts.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-file-earmark-text text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Posts</span>
                 </a>
 
                 <!-- Categories -->
-                <a href="{{ route('admin.categories.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.categories.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.categories.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.categories.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-folder text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Categories</span>
                 </a>
 
                 <!-- Tags -->
-                <a href="{{ route('admin.tags.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.tags.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.tags.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.tags.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-tags text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Tags</span>
                 </a>
 
                 <!-- Comments -->
-                <a href="{{ route('admin.comments.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.comments.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.comments.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.comments.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-chat-dots text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Comments</span>
-                    @php $pendingCount = \App\Models\Comment::pending()->count(); @endphp
-                    @if($pendingCount > 0)
-                        <span x-show="sidebarOpen" class="ml-auto bg-red-500 text-xs px-2 py-0.5 rounded-full">{{ $pendingCount }}</span>
-                    @endif
+                    <?php $pendingCount = \App\Models\Comment::pending()->count(); ?>
+                    <?php if($pendingCount > 0): ?>
+                        <span x-show="sidebarOpen" class="ml-auto bg-red-500 text-xs px-2 py-0.5 rounded-full"><?php echo e($pendingCount); ?></span>
+                    <?php endif; ?>
                 </a>
 
                 <div class="pt-4 mt-4 border-t border-gray-700">
@@ -98,31 +97,31 @@
                 </div>
 
                 <!-- Users -->
-                <a href="{{ route('admin.users.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.users.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.users.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.users.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-people text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Users</span>
                 </a>
 
                 <!-- Analytics -->
-                <a href="{{ route('admin.analytics') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.analytics*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.analytics')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.analytics*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-graph-up text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Analytics</span>
                 </a>
 
                 <!-- Sitemap & SEO -->
-                <a href="{{ route('admin.sitemap.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.sitemap.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.sitemap.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.sitemap.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-map text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Sitemap</span>
                 </a>
 
                 <!-- Subscribers -->
-                <a href="{{ route('admin.subscribers.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.subscribers.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.subscribers.index')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.subscribers.*') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-envelope text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Subscribers</span>
                 </a>
 
                 <!-- Settings -->
-                <a href="{{ route('admin.settings') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.settings') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800' }}">
+                <a href="<?php echo e(route('admin.settings')); ?>" class="flex items-center px-3 py-2.5 rounded-lg <?php echo e(request()->routeIs('admin.settings') ? 'bg-primary-600 text-white' : 'text-gray-300 hover:bg-gray-800'); ?>">
                     <i class="bi bi-gear text-lg"></i>
                     <span x-show="sidebarOpen" class="ml-3">Settings</span>
                 </a>
@@ -131,10 +130,10 @@
             <!-- User -->
             <div class="p-4 border-t border-gray-800">
                 <div class="flex items-center">
-                    <img src="{{ $currentAdmin->avatar_url ?? '/assets/images/default-avatar.png' }}" class="w-10 h-10 rounded-full">
+                    <img src="<?php echo e($currentAdmin->avatar_url ?? '/assets/images/default-avatar.png'); ?>" class="w-10 h-10 rounded-full">
                     <div x-show="sidebarOpen" class="ml-3">
-                        <div class="text-sm font-medium">{{ $currentAdmin->name ?? 'Admin' }}</div>
-                        <a href="{{ route('home') }}" class="text-xs text-gray-400 hover:text-white">View Site</a>
+                        <div class="text-sm font-medium"><?php echo e($currentAdmin->name ?? 'Admin'); ?></div>
+                        <a href="<?php echo e(route('home')); ?>" class="text-xs text-gray-400 hover:text-white">View Site</a>
                     </div>
                 </div>
             </div>
@@ -149,14 +148,14 @@
                 </button>
 
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('home') }}" target="_blank" class="text-gray-500 hover:text-gray-700" title="View Site">
+                    <a href="<?php echo e(route('home')); ?>" target="_blank" class="text-gray-500 hover:text-gray-700" title="View Site">
                         <i class="bi bi-box-arrow-up-right"></i>
                     </a>
-                    <a href="{{ route('admin.profile') }}" class="text-gray-500 hover:text-gray-700" title="Profile">
+                    <a href="<?php echo e(route('admin.profile')); ?>" class="text-gray-500 hover:text-gray-700" title="Profile">
                         <i class="bi bi-person-circle"></i>
                     </a>
-                    <form method="POST" action="{{ route('admin.logout') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('admin.logout')); ?>">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="text-gray-500 hover:text-red-600" title="Logout">
                             <i class="bi bi-box-arrow-right"></i>
                         </button>
@@ -166,19 +165,21 @@
 
             <!-- Page Content -->
             <main class="p-6">
-                @if(session('success'))
+                <?php if(session('success')): ?>
                     <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                        <?php echo e(session('success')); ?>
 
-                @if(session('error'))
+                    </div>
+                <?php endif; ?>
+
+                <?php if(session('error')): ?>
                     <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                        <?php echo e(session('error')); ?>
 
-                @yield('content')
+                    </div>
+                <?php endif; ?>
+
+                <?php echo $__env->yieldContent('content'); ?>
             </main>
         </div>
     </div>
@@ -193,6 +194,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH C:\Users\User\Desktop\donan22-laravel-new\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>

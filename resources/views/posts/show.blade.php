@@ -3,6 +3,8 @@
 @section('title', ($post->meta_title ?? $post->title) . ' - Donan22')
 @section('meta_description', $post->meta_description ?? $post->excerpt)
 @section('meta_keywords', $post->meta_keywords)
+@section('canonical', $post->canonical_url ?? route('posts.show', $post->slug))
+@section('robots', $post->is_indexable ? 'index, follow' : 'noindex, nofollow')
 @section('og_title', $post->meta_title ?? $post->title)
 @section('og_description', $post->meta_description ?? $post->excerpt)
 @section('og_image', $post->featured_image_url)
