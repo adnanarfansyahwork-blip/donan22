@@ -17,6 +17,9 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="<?php echo $__env->yieldContent('canonical', url()->current()); ?>">
     
+    <!-- Pagination SEO Links -->
+    <?php echo $__env->yieldPushContent('seo_pagination'); ?>
+    
     <!-- Open Graph -->
     <meta property="og:title" content="<?php echo $__env->yieldContent('og_title', config('app.name')); ?>">
     <meta property="og:description" content="<?php echo $__env->yieldContent('og_description', 'Download software, mobile apps, and IT tutorials'); ?>">

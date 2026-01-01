@@ -2,6 +2,7 @@
 
 <?php $__env->startSection('title', 'Donan22 - IT & Software Learning Hub'); ?>
 <?php $__env->startSection('meta_description', 'Download software PC, mobile apps Android & iOS, and learn IT tutorials. Your trusted source for technology.'); ?>
+<?php $__env->startSection('canonical', route('home')); ?>
 
 <?php $__env->startSection('content'); ?>
 <!-- Hero Section - Mobile Optimized -->

@@ -8,7 +8,7 @@
     @if (file_exists(public_path('build/manifest.json')))
         @vite(['resources/css/app.css'])
     @else
-        <link rel="stylesheet" href="/build/assets/app-C6uQa5Od.css">
+        <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
     @endif
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
