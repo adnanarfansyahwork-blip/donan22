@@ -10,6 +10,17 @@
 @section('og_image', $post->featured_image_url)
 @section('og_type', 'article')
 
+@push('schema')
+<!-- Article Schema Markup (SEO) -->
+<script type="application/ld+json">
+{!! json_encode($post->getSchemaMarkup(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+<!-- Breadcrumb Schema Markup (SEO) -->
+<script type="application/ld+json">
+{!! json_encode($post->getBreadcrumbSchema(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
 @push('styles')
 <style>
 /* Post Content Styling */
@@ -390,6 +401,92 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Previous/Next Post Navigation (SEO Internal Linking) -->
+                @if(isset($previousPost) || isset($nextPost))
+                <div class="bg-white rounded-xl border border-gray-200 p-4 mb-6 shadow-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Previous Post -->
+                        <div class="flex-1">
+                            @if(isset($previousPost) && $previousPost)
+                                <a href="{{ $previousPost->url }}" class="group block h-full p-3 rounded-lg border border-gray-100 hover:border-primary-200 hover:bg-primary-50/30 transition-all">
+                                    <div class="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                                        <i class="bi bi-arrow-left"></i>
+                                        <span>Previous Post</span>
+                                    </div>
+                                    <h4 class="text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors line-clamp-2">
+                                        {{ $previousPost->title }}
+                                    </h4>
+                                </a>
+                            @else
+                                <div class="h-full p-3 rounded-lg border border-gray-50 bg-gray-50/50">
+                                    <div class="flex items-center gap-2 text-xs text-gray-300 mb-1">
+                                        <i class="bi bi-arrow-left"></i>
+                                        <span>Previous Post</span>
+                                    </div>
+                                    <span class="text-sm text-gray-300">No previous post</span>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Next Post -->
+                        <div class="flex-1">
+                            @if(isset($nextPost) && $nextPost)
+                                <a href="{{ $nextPost->url }}" class="group block h-full p-3 rounded-lg border border-gray-100 hover:border-primary-200 hover:bg-primary-50/30 transition-all text-right">
+                                    <div class="flex items-center justify-end gap-2 text-xs text-gray-400 mb-1">
+                                        <span>Next Post</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                    </div>
+                                    <h4 class="text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors line-clamp-2">
+                                        {{ $nextPost->title }}
+                                    </h4>
+                                </a>
+                            @else
+                                <div class="h-full p-3 rounded-lg border border-gray-50 bg-gray-50/50 text-right">
+                                    <div class="flex items-center justify-end gap-2 text-xs text-gray-300 mb-1">
+                                        <span>Next Post</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-300">No next post</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                <!-- More Related Posts (SEO - More Internal Links) -->
+                @if(isset($moreRelatedPosts) && $moreRelatedPosts->count())
+                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6 shadow-sm">
+                    <div class="px-5 py-4 bg-gray-50 border-b border-gray-200">
+                        <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                            <i class="bi bi-grid-3x3-gap mr-2 text-primary-600"></i>
+                            You May Also Like
+                        </h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            @foreach($moreRelatedPosts as $related)
+                                <a href="{{ $related->url }}" class="group block">
+                                    <div class="aspect-square rounded-lg overflow-hidden bg-gray-100 mb-2">
+                                        <img src="{{ $related->featured_image_url }}" 
+                                             alt="{{ $related->title }}"
+                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                             loading="lazy"
+                                             width="150" height="150">
+                                    </div>
+                                    <h3 class="text-xs sm:text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+                                        {{ $related->title }}
+                                    </h3>
+                                    @if($related->category)
+                                        <span class="text-[10px] text-gray-400 mt-0.5 block">{{ $related->category->name }}</span>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
 
                 <!-- Comments Section -->
                 @if($post->allow_comments)

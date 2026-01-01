@@ -37,10 +37,24 @@ class PostController extends Controller
             ->latest()
             ->paginate(20);
 
-        // Related posts
+        // Related posts (for sidebar)
         $relatedPosts = $post->getRelatedPosts(4);
+        
+        // Previous/Next posts for navigation (SEO internal linking)
+        $previousPost = $post->getPreviousPost();
+        $nextPost = $post->getNextPost();
+        
+        // More related posts for bottom section (SEO - more internal links)
+        $moreRelatedPosts = $post->getMoreRelatedPosts(6);
 
-        return view('posts.show', compact('post', 'comments', 'relatedPosts'));
+        return view('posts.show', compact(
+            'post', 
+            'comments', 
+            'relatedPosts',
+            'previousPost',
+            'nextPost',
+            'moreRelatedPosts'
+        ));
     }
 
     public function download(Post $post, DownloadLink $link): RedirectResponse

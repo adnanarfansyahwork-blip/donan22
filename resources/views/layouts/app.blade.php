@@ -81,6 +81,9 @@
     </style>
     
     @stack('styles')
+    
+    <!-- Schema Markup (JSON-LD) for SEO -->
+    @stack('schema')
 </head>
 <body class="font-sans antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col">
     <!-- Navigation -->

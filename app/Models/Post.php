@@ -581,6 +581,136 @@ class Post extends Model
     }
 
     /**
+     * Get the previous post (older/chronologically before).
+     */
+    public function getPreviousPost(): ?self
+    {
+        return static::published()
+            ->where('published_at', '<', $this->published_at)
+            ->orderBy('published_at', 'desc')
+            ->first();
+    }
+
+    /**
+     * Get the next post (newer/chronologically after).
+     */
+    public function getNextPost(): ?self
+    {
+        return static::published()
+            ->where('published_at', '>', $this->published_at)
+            ->orderBy('published_at', 'asc')
+            ->first();
+    }
+
+    /**
+     * Get more related posts for better internal linking (SEO).
+     * This includes posts from same category, same type, or with similar tags.
+     */
+    public function getMoreRelatedPosts(int $limit = 6): \Illuminate\Database\Eloquent\Collection
+    {
+        $tagIds = $this->tags ? $this->tags->pluck('id')->toArray() : [];
+        
+        return static::published()
+            ->where('id', '!=', $this->id)
+            ->where(function ($query) use ($tagIds) {
+                // Same category
+                $query->where('category_id', $this->category_id)
+                    // Or same post type
+                    ->orWhere('post_type_id', $this->post_type_id);
+                
+                // Or has same tags
+                if (!empty($tagIds)) {
+                    $query->orWhereHas('tags', function ($q) use ($tagIds) {
+                        $q->whereIn('tags.id', $tagIds);
+                    });
+                }
+            })
+            ->with(['category'])
+            ->orderBy('published_at', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
+     * Generate JSON-LD Schema for Article (SEO).
+     */
+    public function getSchemaMarkup(): array
+    {
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'headline' => $this->meta_title ?? $this->title,
+            'description' => $this->meta_description ?? $this->excerpt,
+            'image' => $this->featured_image_url,
+            'datePublished' => $this->published_at?->toIso8601String(),
+            'dateModified' => $this->updated_at->toIso8601String(),
+            'author' => [
+                '@type' => 'Organization',
+                'name' => 'Donan22',
+                'url' => config('app.url'),
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'Donan22',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => asset('assets/images/logo.png'),
+                ],
+            ],
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => $this->url,
+            ],
+            'articleSection' => $this->category?->name ?? 'Software',
+            'keywords' => $this->meta_keywords,
+        ];
+    }
+
+    /**
+     * Generate Breadcrumb Schema (SEO).
+     */
+    public function getBreadcrumbSchema(): array
+    {
+        $items = [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => config('app.url'),
+            ],
+        ];
+
+        if ($this->category) {
+            $items[] = [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $this->category->name,
+                'item' => route('categories.show', $this->category->slug),
+            ];
+            
+            $items[] = [
+                '@type' => 'ListItem',
+                'position' => 3,
+                'name' => $this->title,
+                'item' => $this->url,
+            ];
+        } else {
+            $items[] = [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $this->title,
+                'item' => $this->url,
+            ];
+        }
+
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $items,
+        ];
+    }
+
+    /**
      * Sync tags by IDs.
      */
     public function syncTags(array $tagIds): void
