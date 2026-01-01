@@ -5,17 +5,13 @@
 
     RewriteEngine On
 
-    # Force HTTPS (uncomment in production)
-    # RewriteCond %{HTTPS} off
-    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    # Force HTTPS in production
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    # Force non-www to www (uncomment if needed)
-    # RewriteCond %{HTTP_HOST} ^donan22\.com [NC]
-    # RewriteRule ^(.*)$ https://www.donan22.com/$1 [L,R=301]
-
-    # Or force www to non-www (recommended - uncomment this instead)
-    # RewriteCond %{HTTP_HOST} ^www\.donan22\.com [NC]
-    # RewriteRule ^(.*)$ https://donan22.com/$1 [L,R=301]
+    # Force www to non-www (canonical URL)
+    RewriteCond %{HTTP_HOST} ^www\.donan22\.com [NC]
+    RewriteRule ^(.*)$ https://donan22.com/$1 [L,R=301]
 
     # Prevent caching of sitemap.xml and robots.txt
     <FilesMatch "\.(xml|txt)$">
