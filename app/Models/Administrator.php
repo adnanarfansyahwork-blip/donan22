@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder|Administrator where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static Administrator|null first()
  * @method bool update(array $attributes = [], array $options = [])
  * @method bool save(array $options = [])
  */
@@ -35,6 +36,15 @@ class Administrator extends Authenticatable
     protected $hidden = [
         'password_hash',
         'two_factor_secret',
+    ];
+
+    protected $casts = [
+        'last_login' => 'datetime',
+        'last_login_at' => 'datetime',
+        'locked_until' => 'datetime',
+        'two_factor_enabled' => 'boolean',
+        'failed_login_attempts' => 'integer',
+        'login_attempts' => 'integer',
     ];
 
     /**
@@ -83,6 +93,14 @@ class Administrator extends Authenticatable
      */
     public function getAuthPassword(): string
     {
-        return $this->password_hash;
+        return $this->password_hash ?? '';
+    }
+
+    /**
+     * Get the password for the user (overrides default).
+     */
+    public function getAuthPasswordName(): string
+    {
+        return 'password_hash';
     }
 }
