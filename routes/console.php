@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
@@ -10,7 +11,7 @@ Artisan::command('inspire', function () {
 
 // Scheduled Tasks
 Schedule::call(function () {
-    \Log::info('Cron job running at ' . now());
+    Log::info('Cron job running at ' . now());
 })->everyMinute()->name('test-cron');
 
 // Example: Clear old view cache daily
