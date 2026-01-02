@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Under Maintenance - Donan22</title>
     @if (file_exists(public_path('build/manifest.json')))
-        @vite(['resources/css/app.css'])
+        <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
     @else
         <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
     @endif

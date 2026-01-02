@@ -7,7 +7,8 @@
     <title>Admin Login - Donan22</title>
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
+    <script src="/build/assets/app-CAiCLEjY.js" defer></script>
 </head>
 <body class="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 min-h-screen flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
