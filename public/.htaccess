@@ -9,9 +9,9 @@
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    # Force www to non-www (canonical URL)
-    RewriteCond %{HTTP_HOST} ^www\.donan22\.com [NC]
-    RewriteRule ^(.*)$ https://donan22.com/$1 [L,R=301]
+    # Force non-www to www (canonical URL)
+    RewriteCond %{HTTP_HOST} ^donan22\.com [NC]
+    RewriteRule ^(.*)$ https://www.donan22.com/$1 [L,R=301]
 
     # Prevent caching of sitemap.xml and robots.txt
     <FilesMatch "\.(xml|txt)$">
