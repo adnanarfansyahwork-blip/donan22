@@ -19,4 +19,4 @@ Disallow: /*?platform=
 Crawl-delay: 1
 
 # Sitemap
-Sitemap: https://donan22.com/sitemap.xml
+Sitemap: https://www.donan22.com/sitemap.xml
