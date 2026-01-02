@@ -28,6 +28,8 @@ Isi form dengan data berikut:
 cd /home/u828471719/domains/donan22.com/public_html && /usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
+**PENTING:** Pastikan command dimulai dengan `cd` untuk pindah direktori dulu!
+
 ATAU jika path php berbeda:
 ```bash
 cd /home/u828471719/domains/donan22.com/public_html && php artisan schedule:run >> /dev/null 2>&1
