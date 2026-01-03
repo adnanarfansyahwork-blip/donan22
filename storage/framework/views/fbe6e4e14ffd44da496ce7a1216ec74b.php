@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>404 - Page Not Found</title>
     <?php if(file_exists(public_path('build/manifest.json'))): ?>
-        <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css']); ?>
+        <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
     <?php else: ?>
         <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
     <?php endif; ?>

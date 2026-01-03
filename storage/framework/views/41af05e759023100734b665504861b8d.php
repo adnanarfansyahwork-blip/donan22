@@ -54,12 +54,8 @@
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
     
     <!-- Styles - Optimized -->
-    <?php if(file_exists(public_path('build/manifest.json'))): ?>
-        <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
-    <?php else: ?>
-        <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
-        <script src="/build/assets/app-CAiCLEjY.js" defer></script>
-    <?php endif; ?>
+    <link rel="stylesheet" href="/build/assets/app-Dh07Ywdd.css">
+    <script src="/build/assets/app-CAiCLEjY.js" defer></script>
     
     <style>
         [x-cloak] { display: none !important; }
