@@ -6,16 +6,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', config('app.name', 'Donan22'))</title>
-    <meta name="description" content="@yield('meta_description', 'Download software, mobile apps, and IT tutorials')">
-    <meta name="keywords" content="@yield('meta_keywords', 'software, download, apps, tutorials, IT')">
+    <meta name="description" content="@yield('meta_description', 'Download software PC, mobile apps Android & iOS, dan tutorial IT terlengkap. Sumber terpercaya untuk teknologi terbaru.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'download software gratis, aplikasi android, tutorial IT, software PC, mobile apps, teknologi')">
     <meta name="author" content="Donan22">
     <meta name="robots" content="@yield('robots', 'index, follow')">
+    <meta name="language" content="Indonesian">
+    <meta name="revisit-after" content="3 days">
+    <meta name="rating" content="general">
     
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content="57FjeBMKdUbN9FCNyR8ChLgsWir5KB4IWo21JzdPLPw">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <!-- Canonical URL - Normalized to prevent www/non-www duplicate content -->
+    @php
+        $canonicalUrl = str_replace('://www.', '://', request()->url());
+    @endphp
+    <link rel="canonical" href="@yield('canonical', $canonicalUrl)">
     
     <!-- Pagination SEO Links -->
     @stack('seo_pagination')

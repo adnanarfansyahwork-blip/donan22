@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'About Us - Donan22')
-@section('meta_description', 'Learn more about Donan22 - Your trusted source for software, apps, and IT tutorials.')
+@section('title', 'Tentang Kami - Donan22 IT & Software Learning Hub')
+@section('meta_description', 'Donan22 adalah portal download software, aplikasi mobile, dan tutorial IT terpercaya. Pelajari lebih lanjut tentang misi kami menyediakan teknologi yang mudah diakses.')
+@section('meta_keywords', 'tentang donan22, download software terpercaya, portal IT Indonesia, situs download software')
 @section('canonical', route('about'))
 
 @section('content')

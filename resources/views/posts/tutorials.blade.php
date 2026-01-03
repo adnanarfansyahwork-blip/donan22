@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Tutorials - Donan22')
-@section('meta_description', 'Learn IT and programming with our comprehensive tutorials.')
+@section('title', 'Tutorial IT & Programming Lengkap ' . date('Y') . ' - Donan22')
+@section('meta_description', 'Pelajari IT dan programming dengan tutorial lengkap dan mudah dipahami. Tutorial web development, database, networking, cybersecurity, dan tips teknologi terbaru ' . date('Y') . '.')
+@section('meta_keywords', 'tutorial IT, belajar programming, tutorial web development, tutorial database, tips teknologi, panduan komputer')
 @section('canonical', route('tutorials.index'))
 @section('robots', request()->has('page') || request()->has('category') ? 'noindex, follow' : 'index, follow')
 

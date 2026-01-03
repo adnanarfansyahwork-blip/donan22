@@ -1,12 +1,14 @@
 <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group">
-    <a href="{{ $post->url }}" class="block p-4">
+    <a href="{{ $post->url }}" class="block p-4" title="{{ $post->title }}">
         <div class="flex gap-4">
             <!-- Icon/Image -->
             <div class="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
                 <img src="{{ $post->featured_image_url }}" 
-                     alt="{{ $post->title }}" 
+                     alt="{{ $post->featured_image_alt ?? 'Download ' . $post->title . ' - ' . ($post->softwareDetail->version ?? 'Latest Version') }}" 
                      class="w-full h-full object-cover" 
-                     loading="lazy">
+                     loading="lazy"
+                     width="80"
+                     height="80">
             </div>
             
             <!-- Content -->

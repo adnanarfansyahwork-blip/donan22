@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', $category->meta_title ?? $category->name . ' - Donan22')
-@section('meta_description', $category->meta_description ?? $category->description ?? 'Browse ' . $category->name . ' - Download software, apps and tutorials.')
+@section('title', $category->meta_title ?? 'Download ' . $category->name . ' Gratis - Software Terbaru ' . date('Y') . ' | Donan22')
+@section('meta_description', $category->meta_description ?? $category->description ?? 'Download ' . $category->name . ' full version gratis. Koleksi software ' . $category->name . ' terbaru ' . date('Y') . ' untuk Windows, Mac & Android.')
+@section('meta_keywords', $category->meta_keywords ?? 'download ' . strtolower($category->name) . ', ' . strtolower($category->name) . ' gratis, ' . strtolower($category->name) . ' full version, software ' . strtolower($category->name))
 @section('canonical', route('categories.show', $category->slug))
 @section('robots', request()->has('page') ? 'noindex, follow' : 'index, follow')
 

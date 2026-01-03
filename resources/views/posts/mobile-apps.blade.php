@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Mobile Apps - Donan22')
-@section('meta_description', 'Download mobile apps for Android and iOS devices.')
+@section('title', 'Download Aplikasi Android & iOS Gratis Terbaru ' . date('Y') . ' - Donan22')
+@section('meta_description', 'Download aplikasi mobile gratis untuk Android dan iOS. APK MOD, aplikasi premium, games, dan tools terbaru ' . date('Y') . ' dengan fitur lengkap.')
+@section('meta_keywords', 'download APK gratis, aplikasi android, aplikasi iOS, APK MOD, download aplikasi premium gratis, games android')
 @section('canonical', route('mobile-apps.index'))
 @section('robots', request()->has('page') || request()->has('platform') ? 'noindex, follow' : 'index, follow')
 

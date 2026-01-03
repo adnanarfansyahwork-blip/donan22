@@ -1,8 +1,39 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Donan22 - IT & Software Learning Hub')
-@section('meta_description', 'Download software PC, mobile apps Android & iOS, and learn IT tutorials. Your trusted source for technology.')
+@section('title', 'Donan22 - Download Software PC & Aplikasi Mobile Gratis Terbaru ' . date('Y'))
+@section('meta_description', 'Download software PC gratis, aplikasi mobile Android & iOS, dan tutorial IT terlengkap. Sumber terpercaya untuk Adobe, Microsoft Office, video editor, dan teknologi terbaru ' . date('Y') . '.')
+@section('meta_keywords', 'download software gratis, aplikasi android gratis, download adobe gratis, microsoft office gratis, tutorial IT, software PC full version')
 @section('canonical', route('home'))
+
+@push('schema')
+<!-- Organization Schema for Homepage (SEO) -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Donan22",
+    "alternateName": "Donan22 - IT & Software Learning Hub",
+    "url": "{{ config('app.url') }}",
+    "description": "Download software PC gratis, aplikasi mobile Android & iOS, dan tutorial IT terlengkap.",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{{ route('search') }}?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Donan22",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('assets/images/logo.png') }}"
+        }
+    }
+}
+</script>
+@endpush
 
 @section('content')
 <!-- Hero Section - Mobile Optimized -->

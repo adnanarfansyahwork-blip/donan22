@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Categories - Donan22')
-@section('meta_description', 'Browse all categories to find software, apps, and tutorials.')
+@section('title', 'Semua Kategori Software & Aplikasi - Donan22')
+@section('meta_description', 'Jelajahi semua kategori software PC, aplikasi mobile Android/iOS, dan tutorial IT. Temukan software video editor, office, antivirus, dan lainnya.')
+@section('meta_keywords', 'kategori software, download software gratis, aplikasi android, tutorial IT, video editor, office, antivirus')
 @section('canonical', route('categories.index'))
 @section('robots', request()->has('page') ? 'noindex, follow' : 'index, follow')
 

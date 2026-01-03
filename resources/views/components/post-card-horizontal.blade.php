@@ -1,11 +1,11 @@
 {{-- Post Card Horizontal - Mobile Optimized --}}
 <article class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-    <a href="{{ $post->url }}" class="flex flex-col xs:flex-row">
+    <a href="{{ $post->url }}" class="flex flex-col xs:flex-row" title="{{ $post->title }}">
         {{-- Thumbnail Image - Responsive --}}
         <div class="relative w-full xs:w-[140px] xs:min-w-[140px] sm:w-[150px] sm:min-w-[150px] flex-shrink-0">
             <div class="h-48 xs:h-32 sm:h-full bg-gray-100">
                 <img src="{{ $post->featured_image_url }}" 
-                     alt="{{ $post->featured_image_alt ?? $post->title }}" 
+                     alt="{{ $post->featured_image_alt ?? $post->title . ' - Download Gratis ' . ($post->category->name ?? 'Software') }}" 
                      class="w-full h-full object-cover"
                      loading="lazy"
                      decoding="async"

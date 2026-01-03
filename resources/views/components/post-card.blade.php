@@ -1,11 +1,13 @@
 <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group h-full flex flex-col">
-    <a href="{{ $post->url }}" class="block flex flex-col h-full">
+    <a href="{{ $post->url }}" class="block flex flex-col h-full" title="{{ $post->title }}">
         <!-- Image -->
         <div class="h-56 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative flex-shrink-0 flex items-center justify-center">
             <img src="{{ $post->featured_image_url }}" 
-                 alt="{{ $post->featured_image_alt ?? $post->title }}" 
+                 alt="{{ $post->featured_image_alt ?? 'Download ' . $post->title . ' Full Version Gratis' }}" 
                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300" 
                  loading="lazy"
+                 width="400"
+                 height="224"
                  onerror="this.style.display='none'">
         </div>
         

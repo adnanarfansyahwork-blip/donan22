@@ -17,7 +17,20 @@ class SitemapService
         // Generate sitemap in base path (document root) instead of public folder
         // This is needed because Hostinger's document root is /public_html/ not /public_html/public/
         $this->basePath = base_path();
-        $this->appUrl = config('app.url');
+        
+        // Normalize URL: Always use non-www version for canonical consistency
+        // This prevents duplicate content issues between www and non-www
+        $this->appUrl = $this->normalizeUrl(config('app.url'));
+    }
+
+    /**
+     * Normalize URL to ensure consistency (remove www prefix for canonical URL).
+     * SEO Best Practice: Use one canonical version to avoid duplicate content.
+     */
+    protected function normalizeUrl(string $url): string
+    {
+        // Remove www. prefix for canonical consistency
+        return preg_replace('/^(https?:\/\/)www\./i', '$1', $url);
     }
 
     /**

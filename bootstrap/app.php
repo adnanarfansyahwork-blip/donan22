@@ -18,6 +18,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Global middleware - redirect www to non-www for SEO
+        $middleware->prepend(\App\Http\Middleware\RedirectWwwToNonWww::class);
+        
         $middleware->alias([
             'admin.auth' => \App\Http\Middleware\AdminAuth::class,
             'admin.role' => \App\Http\Middleware\RoleMiddleware::class,

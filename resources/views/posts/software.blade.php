@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Software Downloads - Donan22')
-@section('meta_description', 'Download free and premium software for Windows, macOS, and Linux.')
+@section('title', 'Download Software PC Gratis Terbaru ' . date('Y') . ' - Donan22')
+@section('meta_description', 'Download software PC gratis full version untuk Windows, macOS & Linux. Koleksi lengkap Adobe, Microsoft Office, antivirus, video editor, dan aplikasi produktivitas terbaru ' . date('Y') . '.')
+@section('meta_keywords', 'download software gratis, software PC full version, aplikasi windows, software mac, download adobe gratis, microsoft office gratis')
 @section('canonical', route('software.index'))
 @section('robots', request()->has('page') || request()->has('sort') || request()->has('category') ? 'noindex, follow' : 'index, follow')
 

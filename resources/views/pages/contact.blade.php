@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - Donan22')
-@section('meta_description', 'Contact Donan22 - Have questions? We\'d love to hear from you.')
+@section('title', 'Hubungi Kami - Donan22 Support')
+@section('meta_description', 'Hubungi tim Donan22 untuk pertanyaan, saran, atau kerjasama. Kami siap membantu Anda dengan kebutuhan software dan tutorial IT.')
+@section('meta_keywords', 'kontak donan22, hubungi kami, customer support, bantuan download')
 @section('canonical', route('contact'))
 
 @section('content')
