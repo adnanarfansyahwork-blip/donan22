@@ -121,7 +121,7 @@
                                 <p class="font-medium text-gray-900 text-sm">{{ $comment->author_name }}</p>
                                 <p class="text-sm text-gray-600 line-clamp-2">{{ $comment->content }}</p>
                                 <p class="text-xs text-gray-400 mt-1">
-                                    on <a href="{{ route('admin.posts.edit', $comment->post) }}" class="text-primary-600 hover:underline">{{ Str::limit($comment->post->title, 30) }}</a>
+                                    on <a href="{{ route('admin.posts.edit', $comment->post) }}" class="text-primary-600 hover:underline">{{ \Illuminate\Support\Str::limit($comment->post->title, 30) }}</a>
                                 </p>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                         <span class="text-gray-400 font-semibold">{{ $index + 1 }}</span>
                         <div>
                             <a href="{{ route('admin.posts.edit', $post) }}" class="text-gray-900 hover:text-primary-600 line-clamp-1 font-medium">
-                                {{ Str::limit($post->title, 40) }}
+                                {{ \Illuminate\Support\Str::limit($post->title, 40) }}
                             </a>
                             <p class="text-xs text-gray-500">
                                 {{ number_format($post->views_count) }} views
@@ -202,7 +202,7 @@
                             <a href="{{ route('admin.categories.index') }}" class="text-gray-900 hover:text-primary-600 font-medium">
                                 {{ $category->name }}
                             </a>
-                            <p class="text-xs text-gray-500">{{ $category->posts_count }} {{ Str::plural('post', $category->posts_count) }}</p>
+                            <p class="text-xs text-gray-500">{{ $category->posts_count }} {{ \Illuminate\Support\Str::plural('post', $category->posts_count) }}</p>
                         </div>
                     </div>
                 </div>
