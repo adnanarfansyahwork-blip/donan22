@@ -9,25 +9,25 @@
 <!-- Organization Schema for Homepage (SEO) -->
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
+    "@@context": "https://schema.org",
+    "@@type": "WebSite",
     "name": "Donan22",
     "alternateName": "Donan22 - IT & Software Learning Hub",
     "url": "{{ config('app.url') }}",
     "description": "Download software PC gratis, aplikasi mobile Android & iOS, dan tutorial IT terlengkap.",
     "potentialAction": {
-        "@type": "SearchAction",
+        "@@type": "SearchAction",
         "target": {
-            "@type": "EntryPoint",
+            "@@type": "EntryPoint",
             "urlTemplate": "{{ route('search') }}?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
     },
     "publisher": {
-        "@type": "Organization",
+        "@@type": "Organization",
         "name": "Donan22",
         "logo": {
-            "@type": "ImageObject",
+            "@@type": "ImageObject",
             "url": "{{ asset('assets/images/logo.png') }}"
         }
     }
