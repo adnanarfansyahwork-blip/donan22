@@ -1,3 +1,76 @@
+@push('styles')
+<style>
+    /* CKEditor 5 Styling */
+    .ck-editor__editable {
+        min-height: 400px !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-size: 15px !important;
+        line-height: 1.8 !important;
+        color: #1f2937 !important;
+    }
+    .ck-editor__editable:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+    }
+    .ck.ck-editor {
+        width: 100% !important;
+    }
+    .ck.ck-editor__main > .ck-editor__editable {
+        background-color: #fff !important;
+        border-radius: 0 0 0.5rem 0.5rem !important;
+    }
+    .ck.ck-toolbar {
+        background-color: #f9fafb !important;
+        border-radius: 0.5rem 0.5rem 0 0 !important;
+        border-color: #d1d5db !important;
+    }
+    .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+        border-color: #d1d5db !important;
+    }
+    .ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+    .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+        border-radius: 0 0 0.5rem 0.5rem !important;
+    }
+    /* Content styling inside editor */
+    .ck-content p {
+        margin-bottom: 1em !important;
+    }
+    .ck-content h1, .ck-content h2, .ck-content h3, 
+    .ck-content h4, .ck-content h5, .ck-content h6 {
+        font-weight: 600 !important;
+        margin-top: 1.5em !important;
+        margin-bottom: 0.5em !important;
+    }
+    .ck-content ul, .ck-content ol {
+        padding-left: 1.5em !important;
+        margin-bottom: 1em !important;
+    }
+    .ck-content blockquote {
+        border-left: 4px solid #3b82f6 !important;
+        padding-left: 1em !important;
+        margin-left: 0 !important;
+        font-style: italic !important;
+        color: #4b5563 !important;
+    }
+    .ck-content a {
+        color: #3b82f6 !important;
+        text-decoration: underline !important;
+    }
+    .ck-content img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    .ck-content table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+    }
+    .ck-content table td, .ck-content table th {
+        border: 1px solid #d1d5db !important;
+        padding: 0.5em !important;
+    }
+</style>
+@endpush
+
 @php
     $isEdit = isset($post) && $post->exists;
     $formAction = $isEdit ? route('admin.posts.update', $post) : route('admin.posts.store');
@@ -96,21 +169,21 @@
                 @enderror
             </div>
             
-            <!-- Content -->
+            <!-- Content Editor -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
                     Konten <span class="text-red-500">*</span>
                 </label>
                 <textarea id="content"
-                          name="content" 
-                           
-                          required
-                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm @error('content') border-red-500 @enderror"
-                          placeholder="Tulis konten post di sini...">{{ old('content', $post->content ?? '') }}</textarea>
+                          name="content"
+                          class="ckeditor-content">{{ old('content', $post->content ?? '') }}</textarea>
                 @error('content')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-                <p class="text-xs text-gray-500 mt-2">Mendukung format HTML untuk styling</p>
+                <p class="text-xs text-gray-500 mt-2">
+                    <i class="bi bi-info-circle mr-1"></i>
+                    Editor seperti Word - gunakan toolbar di atas untuk formatting
+                </p>
             </div>
             
             <!-- Excerpt -->
@@ -607,33 +680,53 @@
 </form>
 
 @push('scripts')
-@verbatim
+<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
 <script>
-$(document).ready(function() {
-    $('#content').summernote({
-        height: 500,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-            ['fontname', ['fontname']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ],
-        fontNames: ['Arial', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana', 'Segoe UI'],
-        fontNamesIgnoreCheck: ['Segoe UI'],
-        styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'],
+// Initialize CKEditor 5
+ClassicEditor
+    .create(document.querySelector('.ckeditor-content'), {
+        toolbar: {
+            items: [
+                'heading', '|',
+                'bold', 'italic', 'underline', 'strikethrough', '|',
+                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                'alignment', '|',
+                'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+                'link', 'insertImage', 'insertTable', 'blockQuote', 'mediaEmbed', '|',
+                'undo', 'redo', '|',
+                'sourceEditing'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+            ]
+        },
+        fontSize: {
+            options: [9, 11, 13, 'default', 17, 19, 21, 27, 35]
+        },
+        image: {
+            toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
         placeholder: 'Tulis konten post di sini...',
-        tabsize: 2,
-        lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0']
+        language: 'id'
+    })
+    .then(editor => {
+        console.log('CKEditor 5 initialized successfully');
+        window.editor = editor;
+    })
+    .catch(error => {
+        console.error('CKEditor initialization error:', error);
     });
-});
 </script>
-@endverbatim
 <script>
 function postForm() {
     return {

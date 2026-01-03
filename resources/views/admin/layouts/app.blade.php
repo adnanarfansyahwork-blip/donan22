@@ -23,11 +23,10 @@
         <script src="/build/assets/app-CAiCLEjY.js" defer></script>
     @endif
 
-    @stack('styles')
-    <!-- Bootstrap CSS (required for Summernote) -->
+    <!-- Bootstrap CSS (optional for other components) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Summernote CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    
+    @stack('styles')
     
     <!-- Custom CSS to override Bootstrap styles -->
     <style>
@@ -184,12 +183,10 @@
         </div>
     </div>
 
-    <!-- jQuery (required for Summernote) -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap Bundle (includes Popper.js, required for Summernote) -->
+    <!-- Bootstrap Bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Summernote JS -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <!-- Alpine.js Collapse Plugin -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
