@@ -17,6 +17,10 @@
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content="57FjeBMKdUbN9FCNyR8ChLgsWir5KB4IWo21JzdPLPw">
     
+    <!-- Google Bot Instructions -->
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
     <!-- Canonical URL - Normalized to prevent www/non-www duplicate content -->
     @php
         $canonicalUrl = str_replace('://www.', '://', request()->url());

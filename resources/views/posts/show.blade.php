@@ -810,172 +810,302 @@
 @endpush
 
 @push('scripts')
-<!-- Popunder Ads Script - MUST load FIRST -->
-<script type="text/javascript" src="https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js"></script>
+<!-- 
+    SMART POPUNDER ADS SYSTEM v2.0
+    ✅ Bot Detection (Google Bot will NOT see ads)
+    ✅ 24-hour cooldown (not aggressive)
+    ✅ Exit-intent + delayed trigger (not every click)
+    ✅ Max frequency limits (1/session, 2/day)
+    ✅ Single click download (not 3 clicks)
+-->
 
-<!-- Popunder on ANY click + Download Handler -->
 <script>
 (function() {
     'use strict';
     
-    // DEBUG MODE - Check console for logs
-    const DEBUG = true;
+    // ============================================
+    // BOT DETECTION - CRITICAL FOR SEO
+    // ============================================
+    function isBot() {
+        const ua = navigator.userAgent.toLowerCase();
+        const botPatterns = [
+            'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider',
+            'yandexbot', 'facebookexternalhit', 'twitterbot', 'linkedinbot',
+            'semrushbot', 'ahrefsbot', 'mj12bot', 'dotbot', 'rogerbot',
+            'screaming frog', 'gtmetrix', 'pingdom', 'pagespeed', 'lighthouse'
+        ];
+        return botPatterns.some(bot => ua.includes(bot));
+    }
+    
+    // STOP IMMEDIATELY if bot detected
+    if (isBot()) {
+        console.log('[Popunder] 🤖 Bot detected - ads disabled for SEO');
+        initDownloadLinksOnly(); // Only setup download links, no ads
+        return;
+    }
+    
+    // ============================================
+    // CONFIGURATION - SEO FRIENDLY SETTINGS
+    // ============================================
+    const CONFIG = {
+        DEBUG: false, // Set false in production
+        POPUNDER_COOLDOWN: 86400000,      // 24 hours (was 5 seconds!)
+        REQUIRED_CLICKS: 1,                // 1 click (was 3 clicks!)
+        MIN_TIME_ON_PAGE: 20000,           // 20 seconds before popunder eligible
+        MIN_SCROLL_PERCENT: 30,            // User must scroll 30%
+        MAX_PER_SESSION: 1,                // Max 1 popunder per session
+        MAX_PER_DAY: 2,                    // Max 2 popunders per day
+        FIRST_VISIT_NO_POPUP: true,        // No popup for first-time visitors
+        MONETAG_KEY: 'e45ed341f028607fadcfb84f48836611'
+    };
+    
+    // Debug logger
     function log(...args) {
-        if (DEBUG) console.log('[Popunder]', ...args);
+        if (CONFIG.DEBUG) console.log('[Popunder]', ...args);
     }
     
-    // Configuration
-    const POPUNDER_COOLDOWN = 5000; // 5 seconds cooldown between popunders
-    const REQUIRED_CLICKS = 3; // Required clicks for download
-    const MONETAG_KEY = 'e45ed341f028607fadcfb84f48836611';
+    // ============================================
+    // TRACKING HELPERS
+    // ============================================
+    const pageLoadTime = Date.now();
+    let maxScrollPercent = 0;
+    let popunderTriggeredThisSession = false;
     
-    log('Script loaded, waiting for DOM...');
+    // Track scroll percentage
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        maxScrollPercent = Math.max(maxScrollPercent, Math.round((scrollTop / docHeight) * 100));
+    }, { passive: true });
     
-    // Wait for DOM
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
+    // Check if first-time visitor
+    function isFirstVisit() {
+        if (localStorage.getItem('returning_visitor')) {
+            return false;
+        }
+        localStorage.setItem('returning_visitor', Date.now().toString());
+        return true;
     }
     
-    function init() {
-        log('DOM ready, initializing...');
+    // Check session popunder count
+    function getSessionCount() {
+        return parseInt(sessionStorage.getItem('popunder_session_count') || '0');
+    }
+    
+    function incrementSessionCount() {
+        const count = getSessionCount() + 1;
+        sessionStorage.setItem('popunder_session_count', count.toString());
+        return count;
+    }
+    
+    // Check daily popunder count
+    function getDailyCount() {
+        const data = JSON.parse(localStorage.getItem('popunder_daily') || '{"date":"","count":0}');
+        const today = new Date().toDateString();
+        if (data.date !== today) {
+            return 0; // Reset for new day
+        }
+        return data.count;
+    }
+    
+    function incrementDailyCount() {
+        const today = new Date().toDateString();
+        const currentCount = getDailyCount();
+        localStorage.setItem('popunder_daily', JSON.stringify({
+            date: today,
+            count: currentCount + 1
+        }));
+    }
+    
+    // Check cooldown
+    function isCooldownPassed() {
+        const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
+        return (Date.now() - lastTrigger) > CONFIG.POPUNDER_COOLDOWN;
+    }
+    
+    // ============================================
+    // POPUNDER ELIGIBILITY CHECK
+    // ============================================
+    function canTriggerPopunder() {
+        const timeOnPage = Date.now() - pageLoadTime;
         
-        // Check if Monetag script loaded properly
-        log('Checking if Monetag popunder script is active...');
+        // Check all conditions
+        const checks = {
+            notFirstVisit: !CONFIG.FIRST_VISIT_NO_POPUP || !isFirstVisit(),
+            timeOnPage: timeOnPage >= CONFIG.MIN_TIME_ON_PAGE,
+            scrollPercent: maxScrollPercent >= CONFIG.MIN_SCROLL_PERCENT,
+            sessionLimit: getSessionCount() < CONFIG.MAX_PER_SESSION,
+            dailyLimit: getDailyCount() < CONFIG.MAX_PER_DAY,
+            cooldownPassed: isCooldownPassed(),
+            notTriggeredYet: !popunderTriggeredThisSession
+        };
         
-        // ============================================
-        // POPUNDER ON ANY CLICK (entire page)
-        // ============================================
-        document.body.addEventListener('click', function(e) {
-            log('Click detected on:', e.target.tagName, e.target.className);
-            
-            // Check if enough time has passed since last popunder
-            const lastTrigger = parseInt(localStorage.getItem('last_popunder_trigger') || '0');
-            const now = Date.now();
-            const timeSince = now - lastTrigger;
-            
-            log('Time since last trigger:', timeSince, 'ms (cooldown:', POPUNDER_COOLDOWN, 'ms)');
-            
-            if (timeSince > POPUNDER_COOLDOWN) {
-                localStorage.setItem('last_popunder_trigger', now.toString());
-                log('✅ Cooldown passed - triggering popunder...');
-                
-                // Manually trigger popunder as fallback
-                triggerPopunder();
-            } else {
-                log('⏳ Still in cooldown, remaining:', POPUNDER_COOLDOWN - timeSince, 'ms');
-            }
-        }, true); // Use capture phase to ensure this runs first
+        log('Eligibility checks:', checks);
         
-        // ============================================
-        // DOWNLOAD LINKS - 3 click system
-        // ============================================
-        const downloadLinks = document.querySelectorAll('.download-link-ad');
-        log('Found download links:', downloadLinks.length);
-        
-        if (!downloadLinks.length) {
-            log('No download links found!');
-            return;
+        // All must pass
+        return Object.values(checks).every(v => v === true);
+    }
+    
+    // ============================================
+    // POPUNDER TRIGGER
+    // ============================================
+    function triggerPopunder() {
+        if (!canTriggerPopunder()) {
+            log('❌ Not eligible for popunder');
+            return false;
         }
         
-        downloadLinks.forEach(function(link, idx) {
-            setupDownloadLink(link, idx);
-        });
-        
-        log('✅ Initialization complete');
-    }
-    
-    // Manual popunder trigger as fallback
-    function triggerPopunder() {
         try {
-            // Build Monetag popunder URL
             const pageUrl = encodeURIComponent(window.location.href);
-            const keywords = encodeURIComponent(JSON.stringify(document.title.toLowerCase().split(/[\s\-]+/).slice(0, 10)));
+            const keywords = encodeURIComponent(JSON.stringify(
+                document.title.toLowerCase().split(/[\s\-]+/).slice(0, 10)
+            ));
             const popunderUrl = 'https://wayfarerorthodox.com/k85qczw7a2?' + 
                 'refer=' + pageUrl + 
                 '&kw=' + keywords + 
-                '&key=' + MONETAG_KEY +
+                '&key=' + CONFIG.MONETAG_KEY +
                 '&scrWidth=' + screen.width +
                 '&scrHeight=' + screen.height +
                 '&tz=' + (-(new Date().getTimezoneOffset() / 60));
             
-            log('Opening popunder URL:', popunderUrl);
-            
-            // Open popunder in background
             const pop = window.open(popunderUrl, '_blank');
             if (pop) {
                 pop.blur();
                 window.focus();
-                log('✅ Popunder opened successfully');
-            } else {
-                log('❌ Popunder blocked by browser');
+                
+                // Update tracking
+                localStorage.setItem('last_popunder_trigger', Date.now().toString());
+                incrementSessionCount();
+                incrementDailyCount();
+                popunderTriggeredThisSession = true;
+                
+                log('✅ Popunder triggered successfully');
+                return true;
             }
         } catch (err) {
             log('❌ Popunder error:', err.message);
         }
+        return false;
     }
     
-    function setupDownloadLink(link, idx) {
-        const postSlug = '{{ $post->slug ?? "post" }}';
-        const linkId = link.dataset.linkId || idx;
-        const storageKey = 'dl_' + postSlug + '_' + linkId;
-        const originalHref = link.getAttribute('href');
-        
-        log('Setup link #' + idx + ':', originalHref);
-        
-        // Store original href as data attribute (keep href intact for popunder!)
-        link.dataset.targetHref = originalHref;
-        
-        const textEl = link.querySelector('.download-text');
-        const originalText = textEl ? textEl.innerText.trim() : 'Download';
-        
-        // Restore previous state (but DON'T remove href - popunder needs it!)
-        const saved = parseInt(localStorage.getItem(storageKey) || '0');
-        if (saved > 0 && saved < REQUIRED_CLICKS) {
-            updateText(textEl, REQUIRED_CLICKS - saved);
-            log('Restored state for link #' + idx + ':', saved, 'clicks');
-        }
-        
-        link.addEventListener('click', function(e) {
-            let clicks = parseInt(localStorage.getItem(storageKey) || '0');
-            clicks++;
+    // ============================================
+    // LOAD MONETAG SCRIPT (Delayed)
+    // ============================================
+    function loadMonetag() {
+        // Only load after minimum time on page
+        setTimeout(function() {
+            if (isBot()) return; // Double-check
             
-            log('Download link clicked! Total clicks:', clicks, '/', REQUIRED_CLICKS);
-            
-            if (clicks < REQUIRED_CLICKS) {
-                // Prevent navigation but let popunder script detect the click
-                e.preventDefault();
-                
-                localStorage.setItem(storageKey, clicks.toString());
-                updateText(textEl, REQUIRED_CLICKS - clicks);
-                
-                link.classList.add('popunder-active');
-                setTimeout(function() {
-                    link.classList.remove('popunder-active');
-                }, 800);
-                
-                log('Need', REQUIRED_CLICKS - clicks, 'more clicks');
-                
-            } else {
-                // On final click, allow navigation (popunder will also trigger)
-                localStorage.removeItem(storageKey);
-                
-                if (textEl) {
-                    textEl.innerText = 'Opening...';
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://demolitionnutsgrease.com/e4/5e/d3/e45ed341f028607fadcfb84f48836611.js';
+            script.async = true;
+            document.head.appendChild(script);
+            log('Monetag script loaded (delayed)');
+        }, CONFIG.MIN_TIME_ON_PAGE);
+    }
+    
+    // ============================================
+    // EXIT INTENT DETECTION
+    // ============================================
+    function setupExitIntent() {
+        let exitIntentTriggered = false;
+        
+        document.addEventListener('mouseout', function(e) {
+            // Only trigger if mouse leaves through top of viewport
+            if (e.clientY < 0 && !exitIntentTriggered) {
+                log('Exit intent detected');
+                if (triggerPopunder()) {
+                    exitIntentTriggered = true;
                 }
-                
-                log('✅ Final click - navigating to download');
-                // Let the click proceed naturally to the href
             }
-        }, false);
+        });
+        
+        // Also trigger on tab visibility change (user switching tabs)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'hidden' && !exitIntentTriggered) {
+                log('Tab hidden - potential exit');
+                if (triggerPopunder()) {
+                    exitIntentTriggered = true;
+                }
+            }
+        });
     }
     
-    function updateText(el, remaining) {
-        if (!el) return;
-        el.innerText = remaining === 1 
-            ? 'Click 1 More Time' 
-            : 'Click ' + remaining + ' More Times';
+    // ============================================
+    // DOWNLOAD LINKS - SIMPLE 1-CLICK
+    // ============================================
+    function initDownloadLinksOnly() {
+        // For bots: just make download links work normally
+        // No click counting, no delays
+        log('Download links initialized (bot-friendly mode)');
+    }
+    
+    function setupDownloadLinks() {
+        const downloadLinks = document.querySelectorAll('.download-link-ad');
+        log('Found download links:', downloadLinks.length);
+        
+        downloadLinks.forEach(function(link, idx) {
+            const postSlug = '{{ $post->slug ?? "post" }}';
+            const linkId = link.dataset.linkId || idx;
+            const storageKey = 'dl_' + postSlug + '_' + linkId;
+            const textEl = link.querySelector('.download-text');
+            
+            link.addEventListener('click', function(e) {
+                let clicks = parseInt(localStorage.getItem(storageKey) || '0');
+                clicks++;
+                
+                log('Download click:', clicks, '/', CONFIG.REQUIRED_CLICKS);
+                
+                if (clicks < CONFIG.REQUIRED_CLICKS) {
+                    e.preventDefault();
+                    localStorage.setItem(storageKey, clicks.toString());
+                    
+                    if (textEl) {
+                        textEl.innerText = 'Click Again to Download';
+                    }
+                    
+                    // Try to trigger popunder on download click
+                    triggerPopunder();
+                    
+                } else {
+                    // Allow download
+                    localStorage.removeItem(storageKey);
+                    if (textEl) {
+                        textEl.innerText = 'Opening...';
+                    }
+                    log('✅ Download allowed');
+                }
+            }, false);
+        });
+    }
+    
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    function init() {
+        log('Initializing Smart Popunder System v2.0');
+        log('First visit:', isFirstVisit());
+        log('Session count:', getSessionCount());
+        log('Daily count:', getDailyCount());
+        
+        // Load Monetag script (delayed)
+        loadMonetag();
+        
+        // Setup exit intent detection
+        setupExitIntent();
+        
+        // Setup download links
+        setupDownloadLinks();
+        
+        log('✅ Initialization complete');
+    }
+    
+    // Start when DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
     }
 })();
 </script>
