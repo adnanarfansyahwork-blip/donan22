@@ -642,8 +642,8 @@ class Post extends Model
             'headline' => $this->meta_title ?? $this->title,
             'description' => $this->meta_description ?? $this->excerpt,
             'image' => url($this->featured_image_url),
-            'datePublished' => $this->published_at?->toIso8601String(),
-            'dateModified' => $this->updated_at->toIso8601String(),
+            'datePublished' => $this->published_at?->toIso8601String() ?? now()->toIso8601String(),
+            'dateModified' => $this->updated_at?->toIso8601String() ?? $this->published_at?->toIso8601String() ?? now()->toIso8601String(),
             'author' => [
                 '@type' => 'Organization',
                 'name' => 'Donan22',
