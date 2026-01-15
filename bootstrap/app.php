@@ -18,6 +18,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // CLOUDFLARE: Trust proxy - MUST be first middleware
+        $middleware->prepend(\App\Http\Middleware\TrustCloudflare::class);
+        
         // Global middleware - redirect www to non-www for SEO
         $middleware->prepend(\App\Http\Middleware\RedirectWwwToNonWww::class);
         
