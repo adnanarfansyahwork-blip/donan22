@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\DownloadLink;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,19 +13,30 @@ use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function show(string $slug): View
+    public function show(string $slug): View|RedirectResponse
     {
-        $post = Post::where('slug', $slug)
-            ->published()
-            ->with([
-                'category',
-                'postType',
-                'user',
-                'softwareDetail',
-                'downloadLinks' => fn($q) => $q->active()->ordered(),
-                'tags',
-            ])
-            ->firstOrFail();
+        try {
+            $post = Post::where('slug', $slug)
+                ->published()
+                ->with([
+                    'category',
+                    'postType',
+                    'user',
+                    'softwareDetail',
+                    'downloadLinks' => fn($q) => $q->active()->ordered(),
+                    'tags',
+                ])
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            $legacyPostRedirects = (array) config('legacy_redirects.posts', []);
+            $newSlug = $legacyPostRedirects[$slug] ?? null;
+
+            if (is_string($newSlug) && $newSlug !== '') {
+                return redirect()->route('posts.show', ['slug' => $newSlug], 301);
+            }
+
+            throw $e;
+        }
 
         // Increment view count
         $post->incrementViews();
