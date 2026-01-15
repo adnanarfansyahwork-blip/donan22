@@ -641,25 +641,25 @@ class Post extends Model
             '@type' => 'Article',
             'headline' => $this->meta_title ?? $this->title,
             'description' => $this->meta_description ?? $this->excerpt,
-            'image' => $this->featured_image_url,
+            'image' => url($this->featured_image_url),
             'datePublished' => $this->published_at?->toIso8601String(),
             'dateModified' => $this->updated_at->toIso8601String(),
             'author' => [
                 '@type' => 'Organization',
                 'name' => 'Donan22',
-                'url' => config('app.url'),
+                'url' => url('/'),
             ],
             'publisher' => [
                 '@type' => 'Organization',
                 'name' => 'Donan22',
                 'logo' => [
                     '@type' => 'ImageObject',
-                    'url' => asset('assets/images/logo.png'),
+                    'url' => url('assets/images/logo.png'),
                 ],
             ],
             'mainEntityOfPage' => [
                 '@type' => 'WebPage',
-                '@id' => $this->url,
+                '@id' => url(route('posts.show', $this->slug, false)),
             ],
             'articleSection' => $this->category?->name ?? 'Software',
             'keywords' => $this->meta_keywords,
@@ -676,7 +676,7 @@ class Post extends Model
                 '@type' => 'ListItem',
                 'position' => 1,
                 'name' => 'Home',
-                'item' => config('app.url'),
+                'item' => url('/'),
             ],
         ];
 
@@ -685,21 +685,21 @@ class Post extends Model
                 '@type' => 'ListItem',
                 'position' => 2,
                 'name' => $this->category->name,
-                'item' => route('categories.show', $this->category->slug),
+                'item' => url(route('categories.show', $this->category->slug, false)),
             ];
             
             $items[] = [
                 '@type' => 'ListItem',
                 'position' => 3,
                 'name' => $this->title,
-                'item' => $this->url,
+                'item' => url(route('posts.show', $this->slug, false)),
             ];
         } else {
             $items[] = [
                 '@type' => 'ListItem',
                 'position' => 2,
                 'name' => $this->title,
-                'item' => $this->url,
+                'item' => url(route('posts.show', $this->slug, false)),
             ];
         }
 
